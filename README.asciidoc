@@ -1,0 +1,4 @@
+netbeans-plugin
+===============
+
+NetBeans UI support for Forge 2
