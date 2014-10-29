@@ -3,30 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.jboss.forge.nb;
+package org.jboss.forge.netbeans.ui;
 
+import java.awt.Component;
+import javax.swing.JPanel;
 import javax.swing.event.ChangeListener;
 import org.openide.WizardDescriptor;
 import org.openide.util.HelpCtx;
 
-public class ForgeCentralWizardPanel3 implements WizardDescriptor.Panel<WizardDescriptor> {
+/**
+ * A Wizard panel
+ *
+ * @author <a href="mailto:ggastald@redhat.com">George Gastaldi</a>
+ */
+public class ForgeWizardPanel extends JPanel implements WizardDescriptor.Panel<WizardDescriptor> {
 
-    /**
-     * The visual component that displays this panel. If you need to access the
-     * component from this class, just use getComponent().
-     */
-    private ForgeCentralVisualPanel3 component;
-
-    // Get the visual component for the panel. In this template, the component
-    // is kept separate. This can be more efficient: if the wizard is created
-    // but never displayed, or not all panels are displayed, it is better to
-    // create only those which really need to be visible.
     @Override
-    public ForgeCentralVisualPanel3 getComponent() {
-        if (component == null) {
-            component = new ForgeCentralVisualPanel3(this);
-        }
-        return component;
+    public Component getComponent() {
+        return this;
     }
 
     @Override
@@ -40,24 +34,22 @@ public class ForgeCentralWizardPanel3 implements WizardDescriptor.Panel<WizardDe
     @Override
     public boolean isValid() {
         // If it is always OK to press Next or Finish, then:
-        return component != null && component.buttonChecked();
+//        return buttonValid();
         // If it depends on some condition (form filled out...) and
         // this condition changes (last form field filled in...) then
         // use ChangeSupport to implement add/removeChangeListener below.
         // WizardDescriptor.ERROR/WARNING/INFORMATION_MESSAGE will also be useful.
+        return true;
     }
 
-    ChangeListener listener;
     @Override
     public void addChangeListener(ChangeListener l) {
-        listener = l;
+        //TODO
     }
 
     @Override
     public void removeChangeListener(ChangeListener l) {
-        if (listener == l) {
-            listener = null;
-        }
+        //TODO
     }
 
     @Override
@@ -69,5 +61,4 @@ public class ForgeCentralWizardPanel3 implements WizardDescriptor.Panel<WizardDe
     public void storeSettings(WizardDescriptor wiz) {
         // use wiz.putProperty to remember current panel state
     }
-
 }

@@ -3,28 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.jboss.forge.nb;
+package org.jboss.forge.netbeans.ui;
 
 import javax.swing.event.ChangeListener;
 import org.openide.WizardDescriptor;
 import org.openide.util.HelpCtx;
 
-public class ForgeCentralWizardPanel2 implements WizardDescriptor.Panel<WizardDescriptor> {
+public class ForgeCentralWizardPanel3 implements WizardDescriptor.Panel<WizardDescriptor> {
 
     /**
      * The visual component that displays this panel. If you need to access the
      * component from this class, just use getComponent().
      */
-    private ForgeCentralVisualPanel2 component;
+    private ForgeCentralVisualPanel3 component;
 
     // Get the visual component for the panel. In this template, the component
     // is kept separate. This can be more efficient: if the wizard is created
     // but never displayed, or not all panels are displayed, it is better to
     // create only those which really need to be visible.
     @Override
-    public ForgeCentralVisualPanel2 getComponent() {
+    public ForgeCentralVisualPanel3 getComponent() {
         if (component == null) {
-            component = new ForgeCentralVisualPanel2(this);
+            component = new ForgeCentralVisualPanel3(this);
         }
         return component;
     }

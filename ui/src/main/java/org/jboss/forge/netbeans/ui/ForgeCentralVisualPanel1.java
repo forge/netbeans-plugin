@@ -3,24 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.jboss.forge.nb;
+package org.jboss.forge.netbeans.ui;
 
 import javax.swing.JPanel;
+import javax.swing.event.ChangeEvent;
 
-public final class ForgeCentralVisualPanel2 extends JPanel {
-    private final ForgeCentralWizardPanel2 panel;
+public final class ForgeCentralVisualPanel1 extends JPanel {
+    private final ForgeCentralWizardPanel1 panel;
 
     /**
-     * Creates new form ForgeCentralVisualPanel2
+     * Creates new form ForgeCentralVisualPanel1
      */
-    public ForgeCentralVisualPanel2(ForgeCentralWizardPanel2 p) {
+    public ForgeCentralVisualPanel1(ForgeCentralWizardPanel1 panel) {
         initComponents();
-        this.panel = p;
+        this.panel = panel;
     }
 
     @Override
     public String getName() {
-        return "Step #2";
+        return "Step #1";
     }
 
     /**
@@ -33,10 +34,10 @@ public final class ForgeCentralVisualPanel2 extends JPanel {
 
         jCheckBox1 = new javax.swing.JCheckBox();
 
-        org.openide.awt.Mnemonics.setLocalizedText(jCheckBox1, org.openide.util.NbBundle.getMessage(ForgeCentralVisualPanel2.class, "ForgeCentralVisualPanel2.jCheckBox1.text")); // NOI18N
-        jCheckBox1.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jCheckBox1StateChanged(evt);
+        org.openide.awt.Mnemonics.setLocalizedText(jCheckBox1, org.openide.util.NbBundle.getMessage(ForgeCentralVisualPanel1.class, "ForgeCentralVisualPanel1.jCheckBox1.text")); // NOI18N
+        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox1ActionPerformed(evt);
             }
         });
 
@@ -52,23 +53,23 @@ public final class ForgeCentralVisualPanel2 extends JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(135, 135, 135)
+                .addGap(131, 131, 131)
                 .addComponent(jCheckBox1)
-                .addContainerGap(142, Short.MAX_VALUE))
+                .addContainerGap(146, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jCheckBox1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jCheckBox1StateChanged
+    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
         if (panel.listener != null) {
-            panel.listener.stateChanged(evt);
+            panel.listener.stateChanged(new ChangeEvent(this));
         }
-    }//GEN-LAST:event_jCheckBox1StateChanged
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox jCheckBox1;
     // End of variables declaration//GEN-END:variables
 
-    boolean buttonChecked() {
-        return jCheckBox1.isSelected();
+    boolean buttonValid() {
+        return jCheckBox1.isValid();
     }
 }
