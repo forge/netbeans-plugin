@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.jboss.forge.nb.runtime;
+package org.jboss.forge.netbeans.runtime;
 
 /**
  *

@@ -28,7 +28,7 @@ import org.openide.filesystems.FileUtil;
 import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 
-@ActionID(category="Build", id="org.jboss.forge.nb.ForgeCentralWizardAction")
+@ActionID(category="Build", id="org.jboss.forge.netbeans.ui.ForgeCentralWizardAction")
 @ActionRegistration(displayName="#OpenForgeWizard")
 @ActionReferences({
     @ActionReference(path="Menu/Tools", position=33333),
