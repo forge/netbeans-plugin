@@ -9,11 +9,6 @@
     <artifactId>runtime</artifactId>
     <packaging>nbm</packaging>
     <build>
-        <resources>
-            <resource>
-                <directory>addon-repository</directory>
-            </resource>
-        </resources>
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -22,13 +17,21 @@
                 <configuration>
                     <useOSGiDependencies>false</useOSGiDependencies>
                     <publicPackages>
+                        <!-- Local packages -->
+                        <publicPackage>org.jboss.forge.netbeans.runtime</publicPackage>
+                        <!-- Dependencies Packages -->
                         <publicPackage>org.jboss.forge.furnace</publicPackage>
                         <publicPackage>org.jboss.forge.furnace.addons</publicPackage>
+                        <publicPackage>org.jboss.forge.furnace.spi</publicPackage>
                         <publicPackage>org.jboss.forge.addon.convert</publicPackage>
+                        <publicPackage>org.jboss.forge.addon.projects</publicPackage>
+                        <publicPackage>org.jboss.forge.addon.projects.facets</publicPackage>
+                        <publicPackage>org.jboss.forge.addon.resource</publicPackage>
                         <publicPackage>org.jboss.forge.addon.ui</publicPackage>
                         <publicPackage>org.jboss.forge.addon.ui.command</publicPackage>
+                        <publicPackage>org.jboss.forge.addon.ui.context</publicPackage>
+                        <publicPackage>org.jboss.forge.addon.ui.output</publicPackage>
                         <publicPackage>org.jboss.forge.furnace.services</publicPackage>
-                        <publicPackage>org.jboss.forge.netbeans.runtime</publicPackage>
                     </publicPackages>
                 </configuration>
             </plugin>

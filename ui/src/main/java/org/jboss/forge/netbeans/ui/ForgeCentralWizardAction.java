@@ -16,6 +16,13 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import javax.swing.JComponent;
+import org.jboss.forge.addon.projects.ProjectFactory;
+import org.jboss.forge.addon.projects.ProjectProvider;
+import org.jboss.forge.addon.projects.facets.MetadataFacet;
+import org.jboss.forge.addon.resource.Resource;
+import org.jboss.forge.addon.resource.ResourceFactory;
+import org.jboss.forge.furnace.addons.AddonRegistry;
+import org.jboss.forge.furnace.util.OperatingSystemUtils;
 import org.jboss.forge.netbeans.runtime.FurnaceService;
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectManager;
@@ -45,7 +52,6 @@ public final class ForgeCentralWizardAction implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Commands"+FurnaceService.INSTANCE.getCommandFactory().getCommands());
         List<WizardDescriptor.Panel<WizardDescriptor>> panels = new ArrayList<>();
         panels.add(new ForgeCentralWizardPanel1());
         panels.add(new ForgeCentralWizardPanel2());
@@ -82,5 +88,4 @@ public final class ForgeCentralWizardAction implements ActionListener {
             }
         }
     }
-
 }
