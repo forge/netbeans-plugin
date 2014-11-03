@@ -7,12 +7,10 @@ package org.jboss.forge.netbeans.runtime;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import org.jboss.forge.addon.convert.ConverterFactory;
 import org.jboss.forge.addon.ui.command.CommandFactory;
-import org.jboss.forge.addon.ui.context.UIContextListener;
 import org.jboss.forge.addon.ui.controller.CommandControllerFactory;
 import org.jboss.forge.furnace.Furnace;
 import org.jboss.forge.furnace.exception.ContainerException;

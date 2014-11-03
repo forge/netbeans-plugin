@@ -30,7 +30,9 @@
                         <publicPackage>org.jboss.forge.addon.ui</publicPackage>
                         <publicPackage>org.jboss.forge.addon.ui.command</publicPackage>
                         <publicPackage>org.jboss.forge.addon.ui.context</publicPackage>
+                        <publicPackage>org.jboss.forge.addon.ui.input</publicPackage>
                         <publicPackage>org.jboss.forge.addon.ui.output</publicPackage>
+                        <publicPackage>org.jboss.forge.addon.ui.progress</publicPackage>
                         <publicPackage>org.jboss.forge.furnace.services</publicPackage>
                     </publicPackages>
                 </configuration>
