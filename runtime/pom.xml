@@ -21,6 +21,15 @@
                 <extensions>true</extensions>
                 <configuration>
                     <useOSGiDependencies>false</useOSGiDependencies>
+                    <publicPackages>
+                        <publicPackage>org.jboss.forge.furnace</publicPackage>
+                        <publicPackage>org.jboss.forge.furnace.addons</publicPackage>
+                        <publicPackage>org.jboss.forge.addon.convert</publicPackage>
+                        <publicPackage>org.jboss.forge.addon.ui</publicPackage>
+                        <publicPackage>org.jboss.forge.addon.ui.command</publicPackage>
+                        <publicPackage>org.jboss.forge.furnace.services</publicPackage>
+                        <publicPackage>org.jboss.forge.netbeans.runtime</publicPackage>
+                    </publicPackages>
                 </configuration>
             </plugin>
             <plugin>
@@ -54,6 +63,19 @@
             </plugin>
         </plugins>
     </build>
+    
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.jboss.forge</groupId>
+                <artifactId>forge-bom</artifactId>
+                <version>${forge.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+        
     <dependencies>
         <dependency>
             <groupId>org.netbeans.api</groupId>
@@ -64,9 +86,8 @@
         <dependency>
             <groupId>org.jboss.forge.furnace</groupId>
             <artifactId>furnace-se</artifactId>
-            <version>${forge.version}</version>
             <scope>compile</scope>
-        </dependency>
+        </dependency>       
         <dependency>
             <groupId>org.jboss.logmanager</groupId>
             <artifactId>jboss-logmanager</artifactId>
@@ -75,12 +96,10 @@
         <dependency>
             <groupId>org.jboss.forge.addon</groupId>
             <artifactId>facets-api</artifactId>
-            <version>${forge.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.forge.addon</groupId>
             <artifactId>resources-api</artifactId>
-            <version>${forge.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.jboss.forge.addon</groupId>
@@ -91,22 +110,18 @@
         <dependency>
             <groupId>org.jboss.forge.addon</groupId>
             <artifactId>environment-api</artifactId>
-            <version>${forge.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.forge.addon</groupId>
             <artifactId>convert-api</artifactId>
-            <version>${forge.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.forge.addon</groupId>
             <artifactId>projects-api</artifactId>
-            <version>${forge.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.forge.addon</groupId>
             <artifactId>ui-api</artifactId>
-            <version>${forge.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.jboss.forge.addon</groupId>
@@ -125,7 +140,17 @@
                     <artifactId>environment</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>        
+        </dependency>       
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-openide-modules</artifactId>
+            <version>${netbeans.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-openide-util</artifactId>
+            <version>${netbeans.version}</version>
+        </dependency>
     </dependencies>
     <properties>
         <forge.version>2.12.1.Final</forge.version>

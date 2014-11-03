@@ -10,10 +10,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import javax.swing.JComponent;
+import org.jboss.forge.netbeans.runtime.FurnaceService;
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectManager;
 import org.netbeans.api.project.ui.OpenProjects;
@@ -28,12 +31,12 @@ import org.openide.filesystems.FileUtil;
 import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 
-@ActionID(category="Build", id="org.jboss.forge.netbeans.ui.ForgeCentralWizardAction")
-@ActionRegistration(displayName="#OpenForgeWizard")
+@ActionID(category = "Build", id = "org.jboss.forge.netbeans.ui.ForgeCentralWizardAction")
+@ActionRegistration(displayName = "#OpenForgeWizard")
 @ActionReferences({
-    @ActionReference(path="Menu/Tools", position=33333),
+    @ActionReference(path = "Menu/Tools", position = 33333),
     // Ctrl-B on normal systems and Command-B on Mac
-    @ActionReference(path="Shortcuts", name = "D-B")
+    @ActionReference(path = "Shortcuts", name = "D-B")
 })
 @NbBundle.Messages({
     "OpenForgeWizard=JBoss &Forge Wizard"
@@ -42,7 +45,8 @@ public final class ForgeCentralWizardAction implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        List<WizardDescriptor.Panel<WizardDescriptor>> panels = new ArrayList<WizardDescriptor.Panel<WizardDescriptor>>();
+        System.out.println("Commands"+FurnaceService.INSTANCE.getCommandFactory().getCommands());
+        List<WizardDescriptor.Panel<WizardDescriptor>> panels = new ArrayList<>();
         panels.add(new ForgeCentralWizardPanel1());
         panels.add(new ForgeCentralWizardPanel2());
         panels.add(new ForgeCentralWizardPanel3());
@@ -72,7 +76,7 @@ public final class ForgeCentralWizardAction implements ActionListener {
                 FileObject dir = FileUtil.toFileObject(f);
                 FileObject pom = dir.createData("pom.xml");
                 Project p = ProjectManager.getDefault().findProject(dir);
-                OpenProjects.getDefault().open(new Project[] { p }, false, true);
+                OpenProjects.getDefault().open(new Project[]{p}, false, true);
             } catch (IOException ex) {
                 Exceptions.printStackTrace(ex);
             }
