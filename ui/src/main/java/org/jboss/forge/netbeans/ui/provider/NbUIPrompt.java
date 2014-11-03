@@ -5,7 +5,10 @@
  */
 package org.jboss.forge.netbeans.ui.provider;
 
+import javax.swing.JOptionPane;
 import org.jboss.forge.addon.ui.input.UIPrompt;
+import org.openide.DialogDisplayer;
+import org.openide.NotifyDescriptor;
 
 /**
  *
@@ -15,21 +18,36 @@ public class NbUIPrompt implements UIPrompt {
 
     @Override
     public String prompt(String message) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        NotifyDescriptor.InputLine d = new NotifyDescriptor.InputLine(message, "");
+        if (DialogDisplayer.getDefault().notify(d) == NotifyDescriptor.OK_OPTION) {
+            return d.getInputText();
+        }
+        return null;
     }
 
     @Override
     public String promptSecret(String message) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //TODO: Mask input
+        NotifyDescriptor.InputLine d = new NotifyDescriptor.InputLine(message, "");
+        if (DialogDisplayer.getDefault().notify(d) == NotifyDescriptor.OK_OPTION) {
+            return d.getInputText();
+        }
+        return null;
     }
 
     @Override
     public boolean promptBoolean(String message) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        NotifyDescriptor d = new NotifyDescriptor.Confirmation(message, "");
+        return (DialogDisplayer.getDefault().notify(d) == NotifyDescriptor.OK_OPTION);
     }
 
     @Override
     public boolean promptBoolean(String message, boolean defaultValue) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        NotifyDescriptor d = new NotifyDescriptor.Confirmation(message, "");
+        Object result = DialogDisplayer.getDefault().notify(d);
+        if (result == NotifyDescriptor.CANCEL_OPTION) {
+            return defaultValue;
+        }
+        return (result == NotifyDescriptor.OK_OPTION);
     }
 }
