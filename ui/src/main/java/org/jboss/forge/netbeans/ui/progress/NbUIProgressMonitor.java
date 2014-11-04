@@ -9,10 +9,12 @@ import org.jboss.forge.addon.ui.progress.UIProgressMonitor;
 import org.netbeans.api.progress.ProgressHandle;
 
 /**
+ * Implementation of UIProgressMonitor
  *
  * @author <a href="mailto:ggastald@redhat.com">George Gastaldi</a>
  */
 public class NbUIProgressMonitor implements UIProgressMonitor {
+
     private final ProgressHandle progressHandle;
     private boolean cancelled;
 

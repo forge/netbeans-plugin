@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.jboss.forge.netbeans.ui.context;
+package org.jboss.forge.netbeans.ui;
 
 import org.jboss.forge.addon.ui.UIProvider;
 import org.jboss.forge.addon.ui.output.UIOutput;

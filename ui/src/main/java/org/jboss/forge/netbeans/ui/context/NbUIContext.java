@@ -5,6 +5,7 @@
  */
 package org.jboss.forge.netbeans.ui.context;
 
+import org.jboss.forge.netbeans.ui.NbUIProvider;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;

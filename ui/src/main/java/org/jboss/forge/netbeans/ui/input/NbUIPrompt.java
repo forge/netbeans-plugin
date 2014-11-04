@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.jboss.forge.netbeans.ui.provider;
+package org.jboss.forge.netbeans.ui.input;
 
 import javax.swing.JOptionPane;
 import org.jboss.forge.addon.ui.input.UIPrompt;

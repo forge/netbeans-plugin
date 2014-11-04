@@ -5,8 +5,6 @@
  */
 package org.jboss.forge.netbeans.ui;
 
-import org.openide.windows.TopComponent;
-
 /**
  *
  * @author ggastald
