@@ -80,5 +80,4 @@ public class NbUIOutput implements UIOutput {
         }
 
     }
-
 }
