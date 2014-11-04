@@ -33,6 +33,7 @@
                         <publicPackage>org.jboss.forge.addon.ui.input</publicPackage>
                         <publicPackage>org.jboss.forge.addon.ui.output</publicPackage>
                         <publicPackage>org.jboss.forge.addon.ui.progress</publicPackage>
+                        <publicPackage>org.jboss.forge.addon.ui.util</publicPackage>
                         <publicPackage>org.jboss.forge.furnace.services</publicPackage>
                     </publicPackages>
                 </configuration>

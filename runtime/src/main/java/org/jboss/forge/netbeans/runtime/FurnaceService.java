@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import org.jboss.forge.addon.convert.ConverterFactory;
+import org.jboss.forge.addon.resource.ResourceFactory;
 import org.jboss.forge.addon.ui.command.CommandFactory;
 import org.jboss.forge.addon.ui.controller.CommandControllerFactory;
 import org.jboss.forge.furnace.Furnace;
@@ -46,6 +47,10 @@ public enum FurnaceService {
 
     public ConverterFactory getConverterFactory() {
         return lookup(ConverterFactory.class);
+    }
+    
+    public ResourceFactory getResourceFactory() {
+        return lookup(ResourceFactory.class);
     }
 
     public <S> Imported<S> lookupImported(Class<S> service) {

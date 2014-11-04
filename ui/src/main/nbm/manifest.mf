@@ -1,4 +1,5 @@
 Manifest-Version: 1.0
 OpenIDE-Module-Install: org/jboss/forge/netbeans/ui/Installer.class
+OpenIDE-Module-Layer: org/jboss/forge/netbeans/ui/layer.xml
 OpenIDE-Module-Localizing-Bundle: org/jboss/forge/netbeans/ui/Bundle.properties
 
