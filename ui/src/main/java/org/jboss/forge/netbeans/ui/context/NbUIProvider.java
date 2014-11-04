@@ -7,6 +7,7 @@ package org.jboss.forge.netbeans.ui.context;
 
 import org.jboss.forge.addon.ui.UIProvider;
 import org.jboss.forge.addon.ui.output.UIOutput;
+import org.jboss.forge.netbeans.ui.output.NbUIOutput;
 
 /**
  * Implementation of UIProvider interface
@@ -24,7 +25,7 @@ public enum NbUIProvider implements UIProvider {
 
     @Override
     public UIOutput getOutput() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new NbUIOutput();
     }
 
 }

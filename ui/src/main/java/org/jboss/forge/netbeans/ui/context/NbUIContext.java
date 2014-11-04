@@ -24,6 +24,7 @@ import org.openide.util.Exceptions;
 import org.openide.windows.TopComponent;
 
 /**
+ * Implementation of the UIContext interface
  *
  * @author <a href="mailto:ggastald@redhat.com">George Gastaldi</a>
  */
@@ -37,7 +38,6 @@ public class NbUIContext extends AbstractUIContext {
         initialize();
     }
 
-    
     public NbUIContext(UISelection<Resource<?>> initialSelection) {
         this.initialSelection = initialSelection;
         initialize();
@@ -82,7 +82,7 @@ public class NbUIContext extends AbstractUIContext {
             }
         }
     }
-    
+
     /**
      * @return a list of the selected resources from the selected nodes
      */

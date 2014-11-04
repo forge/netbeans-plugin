@@ -16,7 +16,9 @@ import org.openide.windows.IOProvider;
 import org.openide.windows.InputOutput;
 
 /**
- * Writes to output. Needs commons-io for the WriterOutputStream class
+ * Writes to output.
+ *
+ * Depends on commons-io due to WriterOutputStream class
  *
  * @author <a href="mailto:ggastald@redhat.com">George Gastaldi</a>
  */
