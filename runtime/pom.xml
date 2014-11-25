@@ -161,7 +161,7 @@
         </dependency>
     </dependencies>
     <properties>
-        <forge.version>2.12.1.Final</forge.version>
+        <forge.version>2.12.2.Final</forge.version>
         <angularjs.addon.version>2.1.3.Final</angularjs.addon.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
