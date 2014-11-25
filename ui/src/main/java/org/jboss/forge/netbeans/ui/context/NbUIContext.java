@@ -51,7 +51,7 @@ public class NbUIContext extends AbstractUIContext {
 
     @Override
     public UIProvider getProvider() {
-        return NbUIProvider.INSTANCE;
+        return NbUIProvider.GUI;
     }
 
     private void initialize() {
