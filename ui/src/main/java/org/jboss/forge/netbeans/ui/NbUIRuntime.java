@@ -19,7 +19,9 @@ import org.netbeans.api.progress.ProgressHandle;
  *
  * @author <a href="mailto:ggastald@redhat.com">George Gastaldi</a>
  */
-public class NbUIRuntime implements UIRuntime {
+public enum NbUIRuntime implements UIRuntime {
+
+    INSTANCE;
 
     @Override
     public UIProgressMonitor createProgressMonitor(UIContext context) {

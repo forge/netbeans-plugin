@@ -10,6 +10,7 @@ import javax.swing.SwingUtilities;
 import org.jboss.forge.addon.ui.command.CommandFactory;
 import org.jboss.forge.netbeans.runtime.FurnaceService;
 import org.jboss.forge.netbeans.ui.context.NbUIContext;
+import org.jboss.forge.netbeans.ui.wizard.RunForgeWizardRunnable;
 import org.netbeans.spi.quicksearch.SearchProvider;
 import org.netbeans.spi.quicksearch.SearchRequest;
 import org.netbeans.spi.quicksearch.SearchResponse;
@@ -19,7 +20,6 @@ public class ForgeSearchProvider implements SearchProvider {
     @Override
     public void evaluate(final SearchRequest request, final SearchResponse response) {
         SwingUtilities.invokeLater(new Runnable() {
-
             @Override
             public void run() {
                 CommandFactory commandFactory = FurnaceService.INSTANCE.getCommandFactory();
@@ -28,12 +28,9 @@ public class ForgeSearchProvider implements SearchProvider {
                     String query = request.getText().toLowerCase();
                     for (final String commandName : commandNames) {
                         if (commandName.toLowerCase().contains(query)) {
-                            response.addResult(new Runnable() {
-                                @Override
-                                public void run() {
-                                    System.out.println("EXECUTADO " + commandName);
-                                }
-                            }, commandName);
+                            if (!response.addResult(new RunForgeWizardRunnable(commandName), commandName)) {
+                                break;
+                            }
                         }
                     }
                 }
