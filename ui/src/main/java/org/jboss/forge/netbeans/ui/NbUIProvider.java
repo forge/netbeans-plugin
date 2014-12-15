@@ -5,6 +5,8 @@
  */
 package org.jboss.forge.netbeans.ui;
 
+import org.jboss.forge.addon.ui.DefaultUIDesktop;
+import org.jboss.forge.addon.ui.UIDesktop;
 import org.jboss.forge.addon.ui.UIProvider;
 import org.jboss.forge.addon.ui.output.UIOutput;
 import org.jboss.forge.netbeans.ui.output.NbUIOutput;
@@ -36,4 +38,9 @@ public enum NbUIProvider implements UIProvider {
         return new NbUIOutput();
     }
 
+    @Override
+    public UIDesktop getDesktop() {
+        //TODO: Change it to support the IDE's native features
+        return new DefaultUIDesktop();
+    }
 }

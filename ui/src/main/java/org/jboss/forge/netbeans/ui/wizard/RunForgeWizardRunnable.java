@@ -13,7 +13,10 @@ import org.jboss.forge.addon.ui.controller.WizardCommandController;
 import org.jboss.forge.netbeans.runtime.FurnaceService;
 import org.jboss.forge.netbeans.ui.NbUIRuntime;
 import org.jboss.forge.netbeans.ui.context.NbUIContext;
+import org.openide.DialogDisplayer;
+import org.openide.NotifyDescriptor;
 import org.openide.WizardDescriptor;
+import org.openide.loaders.TemplateWizard;
 
 /**
  *
@@ -40,7 +43,8 @@ public class RunForgeWizardRunnable implements Runnable {
             } else {
 //               wizDescriptor = new WizardDescriptor(new ForgeSingleCommandIterator(controller));
             }
-
+            
+            System.out.println(DialogDisplayer.getDefault().notify(new TemplateWizard()));
         }
     }
 

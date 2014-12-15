@@ -12,6 +12,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import javax.swing.event.ChangeListener;
+import org.jboss.forge.addon.resource.FileResource;
 import org.jboss.forge.addon.resource.Resource;
 import org.jboss.forge.addon.ui.context.UIContext;
 import org.jboss.forge.addon.ui.context.UISelection;
@@ -89,6 +90,9 @@ public class ForgeWizardIterator implements WizardDescriptor.ProgressInstantiati
         return instantiate(null);
     }
 
+    /**
+     * Called when finish is clicked*
+     */
     @Override
     public Set instantiate(ProgressHandle handle) throws IOException {
         UIContext context = controller.getContext();
@@ -102,10 +106,15 @@ public class ForgeWizardIterator implements WizardDescriptor.ProgressInstantiati
         } catch (Exception ex) {
             Exceptions.printStackTrace(ex);
         }
+
+        return selectNodes(context);
+    }
+
+    private Set<Node> selectNodes(UIContext context) {
         Set<Node> nodes = new LinkedHashSet<>();
         for (Object resource : context.getSelection()) {
-            if (resource instanceof Resource) {
-                File file = (File) ((Resource) resource).getUnderlyingResourceObject();
+            if (resource instanceof FileResource) {
+                File file = ((FileResource<?>) resource).getUnderlyingResourceObject();
                 DataObject dataObject = FileUtil.toFileObject(file).getLookup().lookup(DataObject.class);
                 if (dataObject != null) {
                     nodes.add(dataObject.getNodeDelegate());
