@@ -19,7 +19,7 @@ public class NbUIPrompt implements UIPrompt {
     @Override
     public String prompt(String message) {
         NotifyDescriptor.InputLine d = new NotifyDescriptor.InputLine(message, "");
-        if (DialogDisplayer.getDefault().notify(d) == NotifyDescriptor.OK_OPTION) {
+        if (NotifyDescriptor.OK_OPTION.equals(DialogDisplayer.getDefault().notify(d))) {
             return d.getInputText();
         }
         return null;
@@ -29,7 +29,7 @@ public class NbUIPrompt implements UIPrompt {
     public String promptSecret(String message) {
         //TODO: Mask input
         NotifyDescriptor.InputLine d = new NotifyDescriptor.InputLine(message, "");
-        if (DialogDisplayer.getDefault().notify(d) == NotifyDescriptor.OK_OPTION) {
+        if (NotifyDescriptor.OK_OPTION.equals(DialogDisplayer.getDefault().notify(d))) {
             return d.getInputText();
         }
         return null;
@@ -37,17 +37,16 @@ public class NbUIPrompt implements UIPrompt {
 
     @Override
     public boolean promptBoolean(String message) {
-        NotifyDescriptor d = new NotifyDescriptor.Confirmation(message, "");
-        return (DialogDisplayer.getDefault().notify(d) == NotifyDescriptor.OK_OPTION);
+        return promptBoolean(message, false);
     }
 
     @Override
     public boolean promptBoolean(String message, boolean defaultValue) {
         NotifyDescriptor d = new NotifyDescriptor.Confirmation(message, "");
         Object result = DialogDisplayer.getDefault().notify(d);
-        if (result == NotifyDescriptor.CANCEL_OPTION) {
+        if (NotifyDescriptor.CANCEL_OPTION.equals(result)) {
             return defaultValue;
         }
-        return (result == NotifyDescriptor.OK_OPTION);
+        return (NotifyDescriptor.OK_OPTION.equals(result));
     }
 }
