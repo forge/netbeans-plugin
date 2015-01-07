@@ -5,12 +5,12 @@
  */
 package org.jboss.forge.netbeans.ui.input;
 
-import javax.swing.JOptionPane;
 import org.jboss.forge.addon.ui.input.UIPrompt;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 
 /**
+ * Implementation of the {@link UIPrompt} interface
  *
  * @author <a href="mailto:ggastald@redhat.com">George Gastaldi</a>
  */

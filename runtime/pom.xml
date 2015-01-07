@@ -38,6 +38,7 @@
                         <publicPackage>org.jboss.forge.addon.ui.metadata</publicPackage>
                         <publicPackage>org.jboss.forge.addon.ui.output</publicPackage>
                         <publicPackage>org.jboss.forge.addon.ui.progress</publicPackage>
+                        <publicPackage>org.jboss.forge.addon.ui.result</publicPackage>
                         <publicPackage>org.jboss.forge.addon.ui.util</publicPackage>
                     </publicPackages>
                 </configuration>
