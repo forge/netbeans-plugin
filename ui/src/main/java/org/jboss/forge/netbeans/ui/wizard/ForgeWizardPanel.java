@@ -31,7 +31,6 @@ public class ForgeWizardPanel extends JPanel implements WizardDescriptor.Panel<W
 
     public ForgeWizardPanel(CommandController controller) {
         super(new MigLayout("fillx,wrap 2", "[left]rel[grow,fill]"));
-        setSize(300,500);
         this.controller = controller;
         initComponents();
     }
@@ -50,6 +49,14 @@ public class ForgeWizardPanel extends JPanel implements WizardDescriptor.Panel<W
     }
 
     @Override
+    public String getName() {
+        if (controller == null) {
+            return super.getName();
+        }
+        return controller.getMetadata().getName();
+    }
+
+    @Override
     public Component getComponent() {
         return this;
     }
@@ -64,6 +71,9 @@ public class ForgeWizardPanel extends JPanel implements WizardDescriptor.Panel<W
 
     @Override
     public boolean isValid() {
+        if (controller == null) {
+            return true;
+        }
         return controller.isValid();
         // If it is always OK to press Next or Finish, then:
 //        return buttonValid();

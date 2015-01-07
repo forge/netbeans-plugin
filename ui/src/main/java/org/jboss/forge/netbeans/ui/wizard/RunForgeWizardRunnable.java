@@ -11,6 +11,7 @@ import org.jboss.forge.addon.ui.command.UICommand;
 import org.jboss.forge.addon.ui.controller.CommandController;
 import org.jboss.forge.addon.ui.controller.CommandControllerFactory;
 import org.jboss.forge.addon.ui.controller.WizardCommandController;
+import org.jboss.forge.addon.ui.metadata.UICommandMetadata;
 import org.jboss.forge.addon.ui.result.CompositeResult;
 import org.jboss.forge.addon.ui.result.Failed;
 import org.jboss.forge.addon.ui.result.Result;
@@ -46,6 +47,7 @@ public class RunForgeWizardRunnable implements Runnable {
             UICommand command = commandFactory.getNewCommandByName(context, commandName);
             CommandControllerFactory controllerFactory = FurnaceService.INSTANCE.getCommandControllerFactory();
             CommandController controller = controllerFactory.createController(context, NbUIRuntime.INSTANCE, command);
+            UICommandMetadata metadata = controller.getMetadata();
             Result result;
             controller.initialize();
             if (controller.getInputs().isEmpty() && controller.canExecute()) {
@@ -65,7 +67,7 @@ public class RunForgeWizardRunnable implements Runnable {
 
                 // {0} will be replaced by WizardDesriptor.Panel.getComponent().getName()
                 wizDescriptor.setTitleFormat(new MessageFormat("{0}"));
-                wizDescriptor.setTitle("...dialog title...");
+                wizDescriptor.setTitle(metadata.getName());
 
                 if (DialogDisplayer.getDefault().notify(wizDescriptor) == WizardDescriptor.FINISH_OPTION) {
                     result = controller.execute();

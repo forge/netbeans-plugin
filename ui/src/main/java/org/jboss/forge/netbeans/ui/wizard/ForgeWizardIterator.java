@@ -46,7 +46,7 @@ public class ForgeWizardIterator implements WizardDescriptor.ProgressInstantiati
 
     @Override
     public String name() {
-        return controller.getInitialMetadata().getName();
+        return controller.getMetadata().getName();
     }
 
     @Override
