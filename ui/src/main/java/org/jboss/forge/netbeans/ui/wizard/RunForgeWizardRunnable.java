@@ -5,6 +5,9 @@
  */
 package org.jboss.forge.netbeans.ui.wizard;
 
+import java.text.MessageFormat;
+import java.util.List;
+import javax.swing.JPanel;
 import org.jboss.forge.addon.ui.command.CommandFactory;
 import org.jboss.forge.addon.ui.command.UICommand;
 import org.jboss.forge.addon.ui.controller.CommandController;
@@ -14,9 +17,8 @@ import org.jboss.forge.netbeans.runtime.FurnaceService;
 import org.jboss.forge.netbeans.ui.NbUIRuntime;
 import org.jboss.forge.netbeans.ui.context.NbUIContext;
 import org.openide.DialogDisplayer;
-import org.openide.NotifyDescriptor;
 import org.openide.WizardDescriptor;
-import org.openide.loaders.TemplateWizard;
+import org.openide.util.Exceptions;
 
 /**
  *
@@ -37,14 +39,25 @@ public class RunForgeWizardRunnable implements Runnable {
             UICommand command = commandFactory.getNewCommandByName(context, commandName);
             CommandControllerFactory controllerFactory = FurnaceService.INSTANCE.getCommandControllerFactory();
             CommandController controller = controllerFactory.createController(context, NbUIRuntime.INSTANCE, command);
+            controller.initialize();
             WizardDescriptor wizDescriptor;
             if (controller instanceof WizardCommandController) {
                 wizDescriptor = new WizardDescriptor(new ForgeWizardIterator((WizardCommandController) controller));
             } else {
-//               wizDescriptor = new WizardDescriptor(new ForgeSingleCommandIterator(controller));
+                WizardDescriptor.Panel[] panels = {new ForgeWizardPanel(controller)};
+                wizDescriptor = new WizardDescriptor(new WizardDescriptor.ArrayIterator(panels));
             }
-            
-            System.out.println(DialogDisplayer.getDefault().notify(new TemplateWizard()));
+            wizDescriptor.putProperty(WizardDescriptor.PROP_AUTO_WIZARD_STYLE, Boolean.TRUE); // NOI18N
+            wizDescriptor.putProperty(WizardDescriptor.PROP_CONTENT_DISPLAYED, Boolean.TRUE); // NOI18N
+            wizDescriptor.putProperty(WizardDescriptor.PROP_CONTENT_NUMBERED, Boolean.TRUE); // NOI18N
+
+            // {0} will be replaced by WizardDesriptor.Panel.getComponent().getName()
+            wizDescriptor.setTitleFormat(new MessageFormat("{0}"));
+            wizDescriptor.setTitle("...dialog title...");
+
+            System.out.println(DialogDisplayer.getDefault().notify(wizDescriptor));
+        } catch (Exception ex) {
+            Exceptions.printStackTrace(ex);
         }
     }
 

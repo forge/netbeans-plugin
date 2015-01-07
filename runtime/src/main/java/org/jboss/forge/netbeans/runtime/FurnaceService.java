@@ -92,9 +92,9 @@ public enum FurnaceService {
             // TODO: List the JARs dinamically
             URL[] urls = {
                 Utilities.toURI(new File("/home/ggastald/.m2/repository/org/jboss/forge/forge-javassist/2/forge-javassist-2.jar")).toURL(),
-                Utilities.toURI(new File("/home/ggastald/.m2/repository/org/jboss/forge/furnace/furnace/2.12.1.Final/furnace-2.12.1.Final.jar")).toURL(),
-                Utilities.toURI(new File("/home/ggastald/.m2/repository/org/jboss/forge/furnace/furnace-api/2.12.1.Final/furnace-api-2.12.1.Final.jar")).toURL(),
-                Utilities.toURI(new File("/home/ggastald/.m2/repository/org/jboss/forge/furnace/furnace-proxy/2.12.1.Final/furnace-proxy-2.12.1.Final.jar")).toURL(),
+                Utilities.toURI(new File("/home/ggastald/.m2/repository/org/jboss/forge/furnace/furnace/2.13.0.Final/furnace-2.13.0.Final.jar")).toURL(),
+                Utilities.toURI(new File("/home/ggastald/.m2/repository/org/jboss/forge/furnace/furnace-api/2.13.0.Final/furnace-api-2.13.0.Final.jar")).toURL(),
+                Utilities.toURI(new File("/home/ggastald/.m2/repository/org/jboss/forge/furnace/furnace-proxy/2.13.0.Final/furnace-proxy-2.13.0.Final.jar")).toURL(),
                 Utilities.toURI(new File("/home/ggastald/.m2/repository/org/jboss/logmanager/jboss-logmanager/1.4.1.Final/jboss-logmanager-1.4.1.Final.jar")).toURL(),
                 Utilities.toURI(new File("/home/ggastald/.m2/repository/org/jboss/forge/jboss-modules/1.3.0.Final-forge/jboss-modules-1.3.0.Final-forge.jar")).toURL(),
                 Utilities.toURI(new File("/home/ggastald/.m2/repository/net/sf/jgrapht/jgrapht/0.8.3/jgrapht-0.8.3.jar")).toURL(),

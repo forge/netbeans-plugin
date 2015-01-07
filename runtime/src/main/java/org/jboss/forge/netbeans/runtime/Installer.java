@@ -5,8 +5,6 @@
  */
 package org.jboss.forge.netbeans.runtime;
 
-import org.jboss.forge.addon.ui.context.UISelection;
-import org.jboss.forge.addon.ui.util.Selections;
 import org.openide.modules.ModuleInstall;
 
 /**
@@ -23,7 +21,6 @@ public class Installer extends ModuleInstall {
      */
     @Override
     public boolean closing() {
-        UISelection<Object> emptySelection = Selections.emptySelection();
         FurnaceService.INSTANCE.stop();
         return true;
     }

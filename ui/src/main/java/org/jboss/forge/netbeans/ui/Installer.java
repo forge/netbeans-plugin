@@ -25,7 +25,9 @@ public class Installer extends ModuleInstall {
     public void restored() {
         // Install ProjectListener
         ProjectFactory projectFactory = FurnaceService.INSTANCE.lookup(ProjectFactory.class);
-        projectListenerRegistration = projectFactory.addProjectListener(new NbProjectListener());
+        if (projectFactory != null) {
+            projectListenerRegistration = projectFactory.addProjectListener(new NbProjectListener());
+        }
     }
 
     @Override

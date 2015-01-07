@@ -7,15 +7,12 @@ package org.jboss.forge.netbeans.ui.wizard;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import javax.swing.event.ChangeListener;
 import org.jboss.forge.addon.resource.FileResource;
-import org.jboss.forge.addon.resource.Resource;
 import org.jboss.forge.addon.ui.context.UIContext;
-import org.jboss.forge.addon.ui.context.UISelection;
 import org.jboss.forge.addon.ui.controller.WizardCommandController;
 import org.netbeans.api.progress.ProgressHandle;
 import org.openide.WizardDescriptor;
@@ -39,6 +36,7 @@ public class ForgeWizardIterator implements WizardDescriptor.ProgressInstantiati
 
     public ForgeWizardIterator(WizardCommandController controller) {
         this.controller = controller;
+        refreshCurrentPanel();
     }
 
     @Override
@@ -82,16 +80,16 @@ public class ForgeWizardIterator implements WizardDescriptor.ProgressInstantiati
     }
 
     private void refreshCurrentPanel() {
-        //TODO: Create current panel
+        this.current = new ForgeWizardPanel(controller);
     }
 
     @Override
     public Set instantiate() throws IOException {
-        return instantiate(null);
+        return instantiate(null);   
     }
 
     /**
-     * Called when finish is clicked*
+     * Called when finish is clicked
      */
     @Override
     public Set instantiate(ProgressHandle handle) throws IOException {
@@ -126,12 +124,12 @@ public class ForgeWizardIterator implements WizardDescriptor.ProgressInstantiati
 
     @Override
     public void addChangeListener(ChangeListener cl) {
-//        changeSupport.addChangeListener(cl);
+        changeSupport.addChangeListener(cl);
     }
 
     @Override
     public void removeChangeListener(ChangeListener cl) {
-//        changeSupport.removeChangeListener(cl);
+        changeSupport.removeChangeListener(cl);
     }
 
     @Override

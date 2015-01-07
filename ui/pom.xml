@@ -113,6 +113,12 @@
             <artifactId>org-netbeans-spi-quicksearch</artifactId>
             <version>${netbeans.version}</version>
         </dependency>
+        <!-- Swing MigLayout -->
+        <dependency>
+           <groupId>com.miglayout</groupId>
+           <artifactId>miglayout-swing</artifactId>
+           <version>4.2</version>
+        </dependency>        
     </dependencies>
     
     <properties>

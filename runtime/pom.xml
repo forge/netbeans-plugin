@@ -22,6 +22,8 @@
                         <!-- Dependencies Packages -->
                         <publicPackage>org.jboss.forge.furnace</publicPackage>
                         <publicPackage>org.jboss.forge.furnace.addons</publicPackage>
+                        <publicPackage>org.jboss.forge.furnace.proxy</publicPackage>
+                        <publicPackage>org.jboss.forge.furnace.services</publicPackage>
                         <publicPackage>org.jboss.forge.furnace.spi</publicPackage>
                         <publicPackage>org.jboss.forge.addon.convert</publicPackage>
                         <publicPackage>org.jboss.forge.addon.projects</publicPackage>
@@ -31,12 +33,12 @@
                         <publicPackage>org.jboss.forge.addon.ui.command</publicPackage>
                         <publicPackage>org.jboss.forge.addon.ui.context</publicPackage>
                         <publicPackage>org.jboss.forge.addon.ui.controller</publicPackage>
+                        <publicPackage>org.jboss.forge.addon.ui.hints</publicPackage>
                         <publicPackage>org.jboss.forge.addon.ui.input</publicPackage>
                         <publicPackage>org.jboss.forge.addon.ui.metadata</publicPackage>
                         <publicPackage>org.jboss.forge.addon.ui.output</publicPackage>
                         <publicPackage>org.jboss.forge.addon.ui.progress</publicPackage>
                         <publicPackage>org.jboss.forge.addon.ui.util</publicPackage>
-                        <publicPackage>org.jboss.forge.furnace.services</publicPackage>
                     </publicPackages>
                 </configuration>
             </plugin>
@@ -63,6 +65,7 @@
                             <addonRepository>${project.build.directory}/classes/addon-repository</addonRepository>
                             <addonIds>
                                 <addonId>org.jboss.forge.addon:core,${forge.version}</addonId>
+                                <addonId>org.jboss.forge.addon:ui-example,${forge.version}</addonId>
                                 <addonId>org.jboss.forge.addon:angularjs,${angularjs.addon.version}</addonId>
                             </addonIds>
                         </configuration>
