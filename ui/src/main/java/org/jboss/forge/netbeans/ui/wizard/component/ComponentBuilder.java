@@ -10,13 +10,13 @@ import java.awt.Component;
 import java.awt.Container;
 import javax.swing.JComponent;
 import org.jboss.forge.addon.convert.ConverterFactory;
-import org.jboss.forge.addon.ui.context.UIContext;
 import org.jboss.forge.addon.ui.controller.CommandController;
 import org.jboss.forge.addon.ui.hints.InputType;
 import org.jboss.forge.addon.ui.input.InputComponent;
 import org.jboss.forge.addon.ui.util.InputComponents;
 import org.jboss.forge.furnace.proxy.Proxies;
 import org.jboss.forge.netbeans.runtime.FurnaceService;
+import org.openide.util.ChangeSupport;
 
 public abstract class ComponentBuilder {
 
@@ -26,7 +26,7 @@ public abstract class ComponentBuilder {
      * @param input
      * @return
      */
-    public abstract JComponent build(Container container, InputComponent<?, Object> input, CommandController controller);
+    public abstract JComponent build(Container container, InputComponent<?, Object> input, CommandController controller, ChangeSupport changeSupport);
 
     /**
      * Returns the supported type this control may produce
@@ -80,7 +80,21 @@ public abstract class ComponentBuilder {
         return handles;
     }
 
-    public void setEnabled(JComponent component, boolean enabled) {
+    protected ConverterFactory getConverterFactory() {
+        return FurnaceService.INSTANCE.getConverterFactory();
+    }
+
+    /**
+     * Called when any change in the produced {@link JComponent} happens
+     *
+     * @param jc
+     * @param input
+     */
+    public void updateState(JComponent jc, InputComponent<?, ?> input) {
+        jc.setEnabled(input.isEnabled());
+    }
+
+    protected void setEnabled(JComponent component, boolean enabled) {
         if (component instanceof Container) {
             for (Component c : ((Container) component).getComponents()) {
                 c.setEnabled(enabled);
@@ -89,9 +103,4 @@ public abstract class ComponentBuilder {
             component.setEnabled(enabled);
         }
     }
-
-    protected ConverterFactory getConverterFactory() {
-        return FurnaceService.INSTANCE.getConverterFactory();
-    }
-
 }

@@ -37,11 +37,12 @@ public class ForgeWizardIterator implements WizardDescriptor.ProgressInstantiati
 
     public ForgeWizardIterator(WizardCommandController controller) {
         this.controller = controller;
-        refreshCurrentPanel();
     }
 
     @Override
     public ForgeWizardPanel current() {
+        if (current == null) 
+            refreshCurrentPanel();
         return current;
     }
 
@@ -82,11 +83,12 @@ public class ForgeWizardIterator implements WizardDescriptor.ProgressInstantiati
 
     private void refreshCurrentPanel() {
         this.current = new ForgeWizardPanel(controller);
+        this.current.setWizardDescriptor(wizardDescriptor);
     }
 
     @Override
     public Set instantiate() throws IOException {
-        return instantiate(null);   
+        return instantiate(null);
     }
 
     /**

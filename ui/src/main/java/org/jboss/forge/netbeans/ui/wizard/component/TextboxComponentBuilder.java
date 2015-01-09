@@ -18,6 +18,7 @@ import org.jboss.forge.addon.ui.hints.InputType;
 import org.jboss.forge.addon.ui.input.InputComponent;
 import org.jboss.forge.addon.ui.input.UIInput;
 import org.jboss.forge.addon.ui.util.InputComponents;
+import org.openide.util.ChangeSupport;
 
 /**
  * Generates a JTextField with a JLabel
@@ -27,7 +28,7 @@ import org.jboss.forge.addon.ui.util.InputComponents;
 public class TextboxComponentBuilder extends ComponentBuilder {
 
     @Override
-    public JComponent build(final Container container, final InputComponent<?, Object> input, final CommandController controller) {
+    public JComponent build(final Container container, final InputComponent<?, Object> input, final CommandController controller, final ChangeSupport changeSupport) {
         JLabel label = new JLabel(InputComponents.getLabelFor(input, true));
         final JTextField txt = new JTextField();
         txt.setEnabled(input.isEnabled());
@@ -46,16 +47,19 @@ public class TextboxComponentBuilder extends ComponentBuilder {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 controller.setValueFor(input.getName(), txt.getText());
+                changeSupport.fireChange();
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
                 controller.setValueFor(input.getName(), txt.getText());
+                changeSupport.fireChange();
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
                 controller.setValueFor(input.getName(), txt.getText());
+                changeSupport.fireChange();
             }
         });
 
