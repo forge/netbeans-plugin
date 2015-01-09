@@ -12,7 +12,7 @@ import org.jboss.forge.addon.ui.input.InputComponent;
  *
  * @author <a href="mailto:ggastald@redhat.com">George Gastaldi</a>
  */
-public class FallbackComponentBuilder extends TextBoxComponentBuilder {
+public class FallbackComponentBuilder extends TextboxComponentBuilder {
 
     @Override
     public boolean handles(InputComponent<?, ?> input) {

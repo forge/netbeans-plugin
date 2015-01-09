@@ -18,7 +18,7 @@ public enum ComponentBuilderRegistry {
     INSTANCE;
 
     private final ComponentBuilder[] componentBuilders = {
-        new TextBoxComponentBuilder(),
+        new TextboxComponentBuilder(),
         new FallbackComponentBuilder()
     };
 

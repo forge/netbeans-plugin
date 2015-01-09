@@ -6,11 +6,11 @@
 package org.jboss.forge.netbeans.ui.wizard.component;
 
 import java.awt.Container;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import org.jboss.forge.addon.convert.Converter;
 import org.jboss.forge.addon.convert.ConverterFactory;
 import org.jboss.forge.addon.ui.controller.CommandController;
@@ -24,7 +24,7 @@ import org.jboss.forge.addon.ui.util.InputComponents;
  *
  * @author <a href="mailto:ggastald@redhat.com">George Gastaldi</a>
  */
-public class TextBoxComponentBuilder extends ComponentBuilder {
+public class TextboxComponentBuilder extends ComponentBuilder {
 
     @Override
     public JComponent build(final Container container, final InputComponent<?, Object> input, final CommandController controller) {
@@ -41,16 +41,21 @@ public class TextBoxComponentBuilder extends ComponentBuilder {
                     .convert(InputComponents.getValueFor(input));
             txt.setText(value == null ? "" : value);
         }
-        
-        txt.addActionListener(new ActionListener() {
+
+        txt.getDocument().addDocumentListener(new DocumentListener() {
             @Override
-            public void actionPerformed(ActionEvent event) {
-                try {
-                    controller.setValueFor(input.getName(), txt.getText());
-                } catch (Exception e) {
-                    //TODO: log
-                    e.printStackTrace();
-                }
+            public void insertUpdate(DocumentEvent e) {
+                controller.setValueFor(input.getName(), txt.getText());
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                controller.setValueFor(input.getName(), txt.getText());
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                controller.setValueFor(input.getName(), txt.getText());
             }
         });
 
@@ -75,5 +80,4 @@ public class TextBoxComponentBuilder extends ComponentBuilder {
     protected Class<?>[] getSupportedInputComponentTypes() {
         return new Class<?>[]{UIInput.class};
     }
-
 }

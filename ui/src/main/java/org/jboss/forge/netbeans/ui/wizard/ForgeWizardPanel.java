@@ -6,6 +6,7 @@
 package org.jboss.forge.netbeans.ui.wizard;
 
 import java.awt.Component;
+import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -13,9 +14,11 @@ import javax.swing.event.ChangeListener;
 import net.miginfocom.swing.MigLayout;
 import org.jboss.forge.addon.ui.controller.CommandController;
 import org.jboss.forge.addon.ui.input.InputComponent;
+import org.jboss.forge.addon.ui.output.UIMessage;
 import org.jboss.forge.netbeans.ui.wizard.component.ComponentBuilder;
 import org.jboss.forge.netbeans.ui.wizard.component.ComponentBuilderRegistry;
 import org.openide.WizardDescriptor;
+import org.openide.WizardValidationException;
 import org.openide.util.ChangeSupport;
 import org.openide.util.HelpCtx;
 
@@ -24,13 +27,16 @@ import org.openide.util.HelpCtx;
  *
  * @author <a href="mailto:ggastald@redhat.com">George Gastaldi</a>
  */
-public class ForgeWizardPanel extends JPanel implements WizardDescriptor.Panel<WizardDescriptor> {
+public class ForgeWizardPanel implements WizardDescriptor.ValidatingPanel<WizardDescriptor> {
 
     private final CommandController controller;
+    private final JPanel panel;
     private final ChangeSupport changeSupport = new ChangeSupport(this);
+    private final Map<InputComponent<?, ?>, JComponent> guiComponents = new HashMap<>();
 
     public ForgeWizardPanel(CommandController controller) {
-        super(new MigLayout("fillx,wrap 2", "[left]rel[grow,fill]"));
+        panel = new JPanel(new MigLayout("fillx,wrap 2", "[left]rel[grow,fill]"));
+        panel.setName(controller.getMetadata().getDescription());
         this.controller = controller;
         initComponents();
     }
@@ -41,24 +47,17 @@ public class ForgeWizardPanel extends JPanel implements WizardDescriptor.Panel<W
             String key = entry.getKey();
             InputComponent<?, Object> value = (InputComponent<?, Object>) entry.getValue();
             ComponentBuilder builder = ComponentBuilderRegistry.INSTANCE.getBuilderFor(value);
-            JComponent jc = builder.build(this, value, controller);
+            JComponent jc = builder.build(panel, value, controller);
             jc.putClientProperty(WizardDescriptor.PROP_AUTO_WIZARD_STYLE, true);
             jc.putClientProperty(WizardDescriptor.PROP_CONTENT_DISPLAYED, true);
             jc.putClientProperty(WizardDescriptor.PROP_CONTENT_NUMBERED, true);
+            guiComponents.put(value, jc);
         }
-    }
-
-    @Override
-    public String getName() {
-        if (controller == null) {
-            return super.getName();
-        }
-        return controller.getMetadata().getName();
     }
 
     @Override
     public Component getComponent() {
-        return this;
+        return panel;
     }
 
     @Override
@@ -71,16 +70,25 @@ public class ForgeWizardPanel extends JPanel implements WizardDescriptor.Panel<W
 
     @Override
     public boolean isValid() {
-        if (controller == null) {
-            return true;
-        }
         return controller.isValid();
         // If it is always OK to press Next or Finish, then:
 //        return buttonValid();
+
         // If it depends on some condition (form filled out...) and
         // this condition changes (last form field filled in...) then
         // use ChangeSupport to implement add/removeChangeListener below.
         // WizardDescriptor.ERROR/WARNING/INFORMATION_MESSAGE will also be useful.
+    }
+
+    @Override
+    public void validate() throws WizardValidationException {
+        for (UIMessage message : controller.validate()) {
+            switch (message.getSeverity()) {
+                case ERROR:
+                    JComponent component = guiComponents.get(message.getSource());
+                    throw new WizardValidationException(component, message.getDescription(), null);
+            }
+        }
     }
 
     @Override

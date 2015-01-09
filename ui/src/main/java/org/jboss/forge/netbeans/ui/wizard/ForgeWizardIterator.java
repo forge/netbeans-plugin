@@ -32,6 +32,7 @@ public class ForgeWizardIterator implements WizardDescriptor.ProgressInstantiati
     private final WizardCommandController controller;
     private final ChangeSupport changeSupport = new ChangeSupport(this);
 
+    private WizardDescriptor wizardDescriptor;
     private ForgeWizardPanel current;
 
     public ForgeWizardIterator(WizardCommandController controller) {
@@ -46,7 +47,7 @@ public class ForgeWizardIterator implements WizardDescriptor.ProgressInstantiati
 
     @Override
     public String name() {
-        return controller.getMetadata().getName();
+        return controller.getMetadata().getDescription();
     }
 
     @Override
@@ -134,10 +135,12 @@ public class ForgeWizardIterator implements WizardDescriptor.ProgressInstantiati
 
     @Override
     public void initialize(WizardDescriptor wizard) {
+        this.wizardDescriptor = wizard;
     }
 
     @Override
     public void uninitialize(WizardDescriptor wizard) {
+        this.wizardDescriptor = null;
     }
 
 }
