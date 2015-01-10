@@ -26,7 +26,11 @@ public abstract class ComponentBuilder {
      * @param input
      * @return
      */
-    public abstract JComponent build(Container container, InputComponent<?, Object> input, CommandController controller, ChangeSupport changeSupport);
+    public abstract JComponent build(
+            final Container container,
+            final InputComponent<?, Object> input,
+            final CommandController controller,
+            final ChangeSupport changeSupport);
 
     /**
      * Returns the supported type this control may produce
