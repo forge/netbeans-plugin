@@ -52,7 +52,7 @@ public class RunForgeWizardRunnable implements Runnable {
                     // Multi-step wizard
                     ForgeWizardIterator iterator = new ForgeWizardIterator((WizardCommandController) controller);
                     wizDescriptor = new WizardDescriptor(iterator);
-                    setDefaultWizardDescriptorValues(wizDescriptor, metadata);
+                    setDefaultWizardDescriptorValues(wizDescriptor, context, metadata);
                     if (DialogDisplayer.getDefault().notify(wizDescriptor) == WizardDescriptor.FINISH_OPTION) {
                         result = iterator.getExecutionResult();
                     }
@@ -61,7 +61,7 @@ public class RunForgeWizardRunnable implements Runnable {
                     ForgeWizardPanel panel = new ForgeWizardPanel(controller);
                     wizDescriptor = new WizardDescriptor(new WizardDescriptor.Panel[]{panel});
                     panel.setWizardDescriptor(wizDescriptor);
-                    setDefaultWizardDescriptorValues(wizDescriptor, metadata);
+                    setDefaultWizardDescriptorValues(wizDescriptor, context, metadata);
                     if (DialogDisplayer.getDefault().notify(wizDescriptor) == WizardDescriptor.FINISH_OPTION) {
                         result = controller.execute();
                     }
@@ -75,14 +75,14 @@ public class RunForgeWizardRunnable implements Runnable {
         }
     }
 
-    private void setDefaultWizardDescriptorValues(WizardDescriptor wizDescriptor, UICommandMetadata metadata) {
-        wizDescriptor.putProperty(WizardDescriptor.PROP_AUTO_WIZARD_STYLE, Boolean.TRUE); // NOI18N
-        wizDescriptor.putProperty(WizardDescriptor.PROP_CONTENT_DISPLAYED, Boolean.FALSE); // NOI18N
-        wizDescriptor.putProperty(WizardDescriptor.PROP_CONTENT_NUMBERED, Boolean.TRUE); // NOI18N
+    private void setDefaultWizardDescriptorValues(WizardDescriptor wizDescriptor, NbUIContext context, UICommandMetadata metadata) {
+        wizDescriptor.putProperty(WizardDescriptor.PROP_AUTO_WIZARD_STYLE, Boolean.TRUE);
+        wizDescriptor.putProperty(WizardDescriptor.PROP_CONTENT_DISPLAYED, Boolean.FALSE);
+        wizDescriptor.putProperty(WizardDescriptor.PROP_CONTENT_NUMBERED, Boolean.FALSE);
 
         // {0} will be replaced by WizardDesriptor.Panel.getComponent().getName()
         wizDescriptor.setTitleFormat(new MessageFormat("{0}"));
-        wizDescriptor.setTitle(metadata.getName());
+        wizDescriptor.setTitle(metadata.getName() + " [" + context.getInitialSelection().get() + "]");
     }
 
 }
