@@ -9,7 +9,6 @@ import java.awt.Container;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import javax.swing.JCheckBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import org.jboss.forge.addon.convert.Converter;
 import org.jboss.forge.addon.convert.ConverterFactory;
@@ -24,10 +23,10 @@ import org.openide.util.ChangeSupport;
  *
  * @author <a href="mailto:ggastald@redhat.com">George Gastaldi</a>
  */
-public class CheckboxComponentBuilder extends ComponentBuilder {
+public class CheckboxComponentBuilder extends ComponentBuilder<JCheckBox> {
 
     @Override
-    public JComponent build(final Container container, final InputComponent<?, Object> input, final CommandController controller, final ChangeSupport changeSupport) {
+    public JCheckBox build(final Container container, final InputComponent<?, Object> input, final CommandController controller, final ChangeSupport changeSupport) {
         final JCheckBox checkbox = new JCheckBox(InputComponents.getLabelFor(input, false));
         checkbox.setEnabled(input.isEnabled());
         final ConverterFactory converterFactory = getConverterFactory();

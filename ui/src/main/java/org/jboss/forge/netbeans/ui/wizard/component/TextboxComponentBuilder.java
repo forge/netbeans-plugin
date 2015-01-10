@@ -6,7 +6,6 @@
 package org.jboss.forge.netbeans.ui.wizard.component;
 
 import java.awt.Container;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
@@ -25,10 +24,10 @@ import org.openide.util.ChangeSupport;
  *
  * @author <a href="mailto:ggastald@redhat.com">George Gastaldi</a>
  */
-public class TextboxComponentBuilder extends ComponentBuilder {
+public class TextboxComponentBuilder extends ComponentBuilder<JTextField> {
 
     @Override
-    public JComponent build(final Container container, final InputComponent<?, Object> input, final CommandController controller, final ChangeSupport changeSupport) {
+    public JTextField build(final Container container, final InputComponent<?, Object> input, final CommandController controller, final ChangeSupport changeSupport) {
         JLabel label = new JLabel(InputComponents.getLabelFor(input, true));
         final JTextField txt = new JTextField();
         txt.setEnabled(input.isEnabled());

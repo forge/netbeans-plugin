@@ -14,11 +14,10 @@ import org.jboss.forge.addon.ui.controller.CommandController;
 import org.jboss.forge.addon.ui.hints.InputType;
 import org.jboss.forge.addon.ui.input.InputComponent;
 import org.jboss.forge.addon.ui.util.InputComponents;
-import org.jboss.forge.furnace.proxy.Proxies;
 import org.jboss.forge.netbeans.runtime.FurnaceService;
 import org.openide.util.ChangeSupport;
 
-public abstract class ComponentBuilder {
+public abstract class ComponentBuilder<C extends JComponent> {
 
     /**
      * Builds a UI Component object based on the input
@@ -26,7 +25,7 @@ public abstract class ComponentBuilder {
      * @param input
      * @return
      */
-    public abstract JComponent build(
+    public abstract C build(
             final Container container,
             final InputComponent<?, Object> input,
             final CommandController controller,
@@ -72,8 +71,7 @@ public abstract class ComponentBuilder {
 
         if (handles) {
             if (inputTypeHint != null && !InputType.DEFAULT.equals(inputTypeHint)) {
-                handles = Proxies.areEquivalent(inputTypeHint,
-                        getSupportedInputType());
+                handles = inputTypeHint.equals(getSupportedInputType());
             } else {
                 // Fallback to standard type
                 handles = getProducedType().isAssignableFrom(
@@ -94,11 +92,11 @@ public abstract class ComponentBuilder {
      * @param jc
      * @param input
      */
-    public void updateState(JComponent jc, InputComponent<?, ?> input) {
-        jc.setEnabled(input.isEnabled());
+    public void updateState(C component, InputComponent<?, ?> input) {
+        component.setEnabled(input.isEnabled());
     }
 
-    protected void setEnabled(JComponent component, boolean enabled) {
+    protected void setEnabled(C component, boolean enabled) {
         if (component instanceof Container) {
             for (Component c : ((Container) component).getComponents()) {
                 c.setEnabled(enabled);

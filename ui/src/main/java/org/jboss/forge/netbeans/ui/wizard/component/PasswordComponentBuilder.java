@@ -6,7 +6,6 @@
 package org.jboss.forge.netbeans.ui.wizard.component;
 
 import java.awt.Container;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.event.DocumentEvent;
@@ -25,10 +24,10 @@ import org.openide.util.ChangeSupport;
  *
  * @author <a href="mailto:ggastald@redhat.com">George Gastaldi</a>
  */
-public class PasswordComponentBuilder extends ComponentBuilder {
+public class PasswordComponentBuilder extends ComponentBuilder<JPasswordField> {
 
     @Override
-    public JComponent build(final Container container, final InputComponent<?, Object> input, final CommandController controller, final ChangeSupport changeSupport) {
+    public JPasswordField build(final Container container, final InputComponent<?, Object> input, final CommandController controller, final ChangeSupport changeSupport) {
         JLabel label = new JLabel(InputComponents.getLabelFor(input, true));
         final JPasswordField txt = new JPasswordField();
         txt.setEnabled(input.isEnabled());

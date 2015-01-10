@@ -19,8 +19,9 @@ public enum ComponentBuilderRegistry {
 
     private final ComponentBuilder[] componentBuilders = {
         new CheckboxComponentBuilder(),
-        new PasswordComponentBuilder(),
+        new ComboComponentBuilder(),
         new TextboxComponentBuilder(),
+        new PasswordComponentBuilder(),
         new FallbackComponentBuilder()
     };
 
