@@ -61,10 +61,12 @@ public class NotificationHelper {
             }
         } else {
             final NotificationDisplayer notificationDisplayer = NotificationDisplayer.getDefault();
-            if (result instanceof Failed) {
-                notificationDisplayer.notify(title, ImageUtilities.loadImageIcon(ICON, false), result.getMessage(), null);
-            } else {
-                notificationDisplayer.notify(title, ImageUtilities.loadImageIcon(ICON, false), result.getMessage(), null);
+            if (result.getMessage() != null) {
+                if (result instanceof Failed) {
+                    notificationDisplayer.notify(title, ImageUtilities.loadImageIcon(ICON, false), result.getMessage(), null);
+                } else {
+                    notificationDisplayer.notify(title, ImageUtilities.loadImageIcon(ICON, false), result.getMessage(), null);
+                }
             }
         }
     }

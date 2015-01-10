@@ -30,7 +30,10 @@ public class SpinnerComponentBuilder extends ComponentBuilder<JSpinner> {
         spinner.setEnabled(input.isEnabled());
         Converter<Object, Integer> converter = getConverterFactory()
                 .getConverter(input.getValueType(), Integer.class);
-        spinner.setValue(converter.convert(input.getValue()));
+        final Integer selectedValue = converter.convert(input.getValue());
+        if (selectedValue != null) {
+            spinner.setValue(selectedValue);
+        }
         spinner.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {

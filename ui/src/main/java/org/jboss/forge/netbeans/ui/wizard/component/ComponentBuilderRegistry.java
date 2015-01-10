@@ -20,6 +20,7 @@ public enum ComponentBuilderRegistry {
     private final ComponentBuilder[] componentBuilders = {
         new CheckboxComponentBuilder(),
         new ComboComponentBuilder(),
+        new RadioComponentBulder(),
         new TextboxComponentBuilder(),
         new SpinnerComponentBuilder(),
         new PasswordComponentBuilder(),
