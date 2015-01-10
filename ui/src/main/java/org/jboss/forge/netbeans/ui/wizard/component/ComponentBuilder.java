@@ -93,7 +93,7 @@ public abstract class ComponentBuilder<C extends JComponent> {
      * @param input
      */
     public void updateState(C component, InputComponent<?, ?> input) {
-        component.setEnabled(input.isEnabled());
+        setEnabled(component, input.isEnabled());
     }
 
     protected void setEnabled(C component, boolean enabled) {

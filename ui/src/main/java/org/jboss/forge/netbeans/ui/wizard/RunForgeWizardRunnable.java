@@ -41,7 +41,7 @@ public class RunForgeWizardRunnable implements Runnable {
             CommandControllerFactory controllerFactory = FurnaceService.INSTANCE.getCommandControllerFactory();
             CommandController controller = controllerFactory.createController(context, NbUIRuntime.INSTANCE, command);
             UICommandMetadata metadata = controller.getMetadata();
-            Result result;
+            Result result = null;
             controller.initialize();
             if (controller.getInputs().isEmpty() && controller.canExecute()) {
                 // Execute directly
@@ -49,24 +49,22 @@ public class RunForgeWizardRunnable implements Runnable {
             } else {
                 WizardDescriptor wizDescriptor;
                 if (controller instanceof WizardCommandController) {
-                    wizDescriptor = new WizardDescriptor(new ForgeWizardIterator((WizardCommandController) controller));
+                    // Multi-step wizard
+                    ForgeWizardIterator iterator = new ForgeWizardIterator((WizardCommandController) controller);
+                    wizDescriptor = new WizardDescriptor(iterator);
+                    setDefaultWizardDescriptorValues(wizDescriptor, metadata);
+                    if (DialogDisplayer.getDefault().notify(wizDescriptor) == WizardDescriptor.FINISH_OPTION) {
+                        result = iterator.getExecutionResult();
+                    }
                 } else {
+                    // Single-step command
                     ForgeWizardPanel panel = new ForgeWizardPanel(controller);
-                    wizDescriptor = new WizardDescriptor(new WizardDescriptor.Panel[] {panel});
+                    wizDescriptor = new WizardDescriptor(new WizardDescriptor.Panel[]{panel});
                     panel.setWizardDescriptor(wizDescriptor);
-                }
-                wizDescriptor.putProperty(WizardDescriptor.PROP_AUTO_WIZARD_STYLE, Boolean.TRUE); // NOI18N
-                wizDescriptor.putProperty(WizardDescriptor.PROP_CONTENT_DISPLAYED, Boolean.TRUE); // NOI18N
-                wizDescriptor.putProperty(WizardDescriptor.PROP_CONTENT_NUMBERED, Boolean.TRUE); // NOI18N
-
-                // {0} will be replaced by WizardDesriptor.Panel.getComponent().getName()
-                wizDescriptor.setTitleFormat(new MessageFormat("{0}"));
-                wizDescriptor.setTitle(metadata.getName());
-
-                if (DialogDisplayer.getDefault().notify(wizDescriptor) == WizardDescriptor.FINISH_OPTION) {
-                    result = controller.execute();
-                } else {
-                    result = null;
+                    setDefaultWizardDescriptorValues(wizDescriptor, metadata);
+                    if (DialogDisplayer.getDefault().notify(wizDescriptor) == WizardDescriptor.FINISH_OPTION) {
+                        result = controller.execute();
+                    }
                 }
             }
             if (result != null) {
@@ -75,6 +73,16 @@ public class RunForgeWizardRunnable implements Runnable {
         } catch (Exception ex) {
             Exceptions.printStackTrace(ex);
         }
+    }
+
+    private void setDefaultWizardDescriptorValues(WizardDescriptor wizDescriptor, UICommandMetadata metadata) {
+        wizDescriptor.putProperty(WizardDescriptor.PROP_AUTO_WIZARD_STYLE, Boolean.TRUE); // NOI18N
+        wizDescriptor.putProperty(WizardDescriptor.PROP_CONTENT_DISPLAYED, Boolean.FALSE); // NOI18N
+        wizDescriptor.putProperty(WizardDescriptor.PROP_CONTENT_NUMBERED, Boolean.TRUE); // NOI18N
+
+        // {0} will be replaced by WizardDesriptor.Panel.getComponent().getName()
+        wizDescriptor.setTitleFormat(new MessageFormat("{0}"));
+        wizDescriptor.setTitle(metadata.getName());
     }
 
 }

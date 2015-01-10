@@ -14,6 +14,7 @@ import javax.swing.event.ChangeListener;
 import org.jboss.forge.addon.resource.FileResource;
 import org.jboss.forge.addon.ui.context.UIContext;
 import org.jboss.forge.addon.ui.controller.WizardCommandController;
+import org.jboss.forge.addon.ui.result.Result;
 import org.netbeans.api.progress.ProgressHandle;
 import org.openide.WizardDescriptor;
 import org.openide.filesystems.FileUtil;
@@ -34,6 +35,7 @@ public class ForgeWizardIterator implements WizardDescriptor.ProgressInstantiati
 
     private WizardDescriptor wizardDescriptor;
     private ForgeWizardPanel current;
+    private Result executionResult;
 
     public ForgeWizardIterator(WizardCommandController controller) {
         this.controller = controller;
@@ -41,8 +43,9 @@ public class ForgeWizardIterator implements WizardDescriptor.ProgressInstantiati
 
     @Override
     public ForgeWizardPanel current() {
-        if (current == null) 
+        if (current == null) {
             refreshCurrentPanel();
+        }
         return current;
     }
 
@@ -103,11 +106,10 @@ public class ForgeWizardIterator implements WizardDescriptor.ProgressInstantiati
                 Map<Object, Object> attributeMap = context.getAttributeMap();
                 attributeMap.put(ProgressHandle.class, handle);
             }
-            controller.execute();
+            this.executionResult = controller.execute();
         } catch (Exception ex) {
             Exceptions.printStackTrace(ex);
         }
-
         return selectNodes(context);
     }
 
@@ -143,6 +145,10 @@ public class ForgeWizardIterator implements WizardDescriptor.ProgressInstantiati
     @Override
     public void uninitialize(WizardDescriptor wizard) {
         this.wizardDescriptor = null;
+    }
+
+    public Result getExecutionResult() {
+        return executionResult;
     }
 
 }

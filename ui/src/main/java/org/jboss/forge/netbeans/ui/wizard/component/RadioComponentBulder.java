@@ -52,6 +52,7 @@ public class RadioComponentBulder extends ComponentBuilder<JPanel> {
             buttonGroup.add(radio);
             panel.add(radio);
         }
+        setEnabled(panel, input.isEnabled());
         container.add(new JLabel(InputComponents.getLabelFor(input, true)));
         container.add(panel);
         return panel;
