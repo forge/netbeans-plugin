@@ -30,9 +30,6 @@ public enum ComponentBuilderRegistry {
                 return builder;
             }
         }
-        throw new IllegalArgumentException(
-                "No UI component found for input type of "
-                + input.getValueType()
-        );
+        return new FallbackComponentBuilder();
     }
 }

@@ -21,11 +21,13 @@ import org.jboss.forge.addon.ui.input.InputComponent;
 import org.jboss.forge.addon.ui.input.UISelectOne;
 import org.jboss.forge.addon.ui.util.InputComponents;
 import org.openide.util.ChangeSupport;
+import org.openide.util.lookup.ServiceProvider;
 
 /**
  *
  * @author <a href="mailto:ggastald@redhat.com">George Gastaldi</a>
  */
+@ServiceProvider(position = 20, service = ComponentBuilder.class)
 public class ComboComponentBuilder extends ComponentBuilder<JComboBox> {
 
     @Override

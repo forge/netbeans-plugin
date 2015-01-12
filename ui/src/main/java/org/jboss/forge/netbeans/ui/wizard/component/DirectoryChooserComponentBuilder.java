@@ -16,12 +16,14 @@ import org.jboss.forge.addon.ui.input.InputComponent;
 import org.jboss.forge.addon.ui.input.UIInput;
 import org.openide.filesystems.FileChooserBuilder;
 import org.openide.util.ChangeSupport;
+import org.openide.util.lookup.ServiceProvider;
 
 /**
  * Implementation for UIInput<DirectoryResource> components
  *
  * @author <a href="mailto:ggastald@redhat.com">George Gastaldi</a>
  */
+@ServiceProvider(position = 90,service = ComponentBuilder.class)
 public class DirectoryChooserComponentBuilder extends AbstractTextButtonComponentBuilder {
 
     @Override

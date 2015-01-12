@@ -57,10 +57,6 @@ public class ForgeWizardPanel implements WizardDescriptor.ValidatingPanel<Wizard
             final ComponentBuilder builder = ComponentBuilderRegistry.INSTANCE.getBuilderFor(value);
             final JComponent jc = builder.build(panel, value, controller, changeSupport);
 
-            jc.putClientProperty(WizardDescriptor.PROP_AUTO_WIZARD_STYLE, true);
-            jc.putClientProperty(WizardDescriptor.PROP_CONTENT_DISPLAYED, true);
-            jc.putClientProperty(WizardDescriptor.PROP_CONTENT_NUMBERED, true);
-
             guiComponents.put(value, jc);
 
             // Update state after a change is detected

@@ -18,11 +18,13 @@ import org.jboss.forge.addon.ui.input.InputComponent;
 import org.jboss.forge.addon.ui.input.UIInput;
 import org.jboss.forge.addon.ui.util.InputComponents;
 import org.openide.util.ChangeSupport;
+import org.openide.util.lookup.ServiceProvider;
 
 /**
  *
  * @author <a href="mailto:ggastald@redhat.com">George Gastaldi</a>
  */
+@ServiceProvider(position = 10, service = ComponentBuilder.class)
 public class CheckboxComponentBuilder extends ComponentBuilder<JCheckBox> {
 
     @Override
@@ -45,6 +47,11 @@ public class CheckboxComponentBuilder extends ComponentBuilder<JCheckBox> {
         container.add(new JLabel());
         container.add(checkbox);
         return checkbox;
+    }
+
+    @Override
+    protected void setEnabled(JCheckBox component, boolean enabled) {
+        component.setEnabled(enabled);
     }
 
     @Override

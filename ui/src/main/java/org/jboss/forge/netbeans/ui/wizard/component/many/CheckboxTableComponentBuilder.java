@@ -25,11 +25,13 @@ import org.jboss.forge.addon.ui.input.UISelectMany;
 import org.jboss.forge.addon.ui.util.InputComponents;
 import org.jboss.forge.netbeans.ui.wizard.component.ComponentBuilder;
 import org.openide.util.ChangeSupport;
+import org.openide.util.lookup.ServiceProvider;
 
 /**
  *
  * @author <a href="mailto:ggastald@redhat.com">George Gastaldi</a>
  */
+@ServiceProvider(position = 70, service = ComponentBuilder.class)
 public class CheckboxTableComponentBuilder extends ComponentBuilder<JTable> {
 
     @Override

@@ -18,12 +18,14 @@ import org.jboss.forge.addon.ui.input.InputComponent;
 import org.jboss.forge.addon.ui.input.UIInput;
 import org.jboss.forge.addon.ui.util.InputComponents;
 import org.openide.util.ChangeSupport;
+import org.openide.util.lookup.ServiceProvider;
 
 /**
  * Generates a JTextField with a JLabel
  *
  * @author <a href="mailto:ggastald@redhat.com">George Gastaldi</a>
  */
+@ServiceProvider(position = 50, service = ComponentBuilder.class)
 public class PasswordComponentBuilder extends ComponentBuilder<JPasswordField> {
 
     @Override
