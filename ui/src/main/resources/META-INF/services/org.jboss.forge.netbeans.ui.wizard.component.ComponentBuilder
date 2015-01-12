@@ -5,4 +5,6 @@ org.jboss.forge.netbeans.ui.wizard.component.TextboxComponentBuilder
 org.jboss.forge.netbeans.ui.wizard.component.SpinnerComponentBuilder
 org.jboss.forge.netbeans.ui.wizard.component.PasswordComponentBuilder
 org.jboss.forge.netbeans.ui.wizard.component.many.CheckboxTableComponentBuilder
+org.jboss.forge.netbeans.ui.wizard.component.FileChooserComponentBuilder
+org.jboss.forge.netbeans.ui.wizard.component.DirectoryChooserComponentBuilder
 org.jboss.forge.netbeans.ui.wizard.component.FallbackComponentBuilder
