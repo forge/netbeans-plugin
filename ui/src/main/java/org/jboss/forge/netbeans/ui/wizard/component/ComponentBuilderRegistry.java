@@ -6,8 +6,8 @@
  */
 package org.jboss.forge.netbeans.ui.wizard.component;
 
+import java.util.ServiceLoader;
 import org.jboss.forge.addon.ui.input.InputComponent;
-import org.jboss.forge.netbeans.ui.wizard.component.many.CheckboxTableComponentBuilder;
 
 /**
  * A factory for {@link ComponentBuilder} instances.
@@ -18,16 +18,11 @@ public enum ComponentBuilderRegistry {
 
     INSTANCE;
 
-    private final ComponentBuilder[] componentBuilders = {
-        new CheckboxComponentBuilder(),
-        new ComboComponentBuilder(),
-        new RadioComponentBulder(),
-        new TextboxComponentBuilder(),
-        new SpinnerComponentBuilder(),
-        new PasswordComponentBuilder(),
-        new CheckboxTableComponentBuilder(),
-        new FallbackComponentBuilder()
-    };
+    private final ServiceLoader<ComponentBuilder> componentBuilders;
+
+    private ComponentBuilderRegistry() {
+        this.componentBuilders = ServiceLoader.load(ComponentBuilder.class);
+    }
 
     public ComponentBuilder getBuilderFor(InputComponent<?, ?> input) {
         for (ComponentBuilder builder : componentBuilders) {
