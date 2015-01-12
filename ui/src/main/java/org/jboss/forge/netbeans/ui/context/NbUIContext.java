@@ -5,7 +5,6 @@
  */
 package org.jboss.forge.netbeans.ui.context;
 
-import org.jboss.forge.netbeans.ui.NbUIProvider;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +17,8 @@ import org.jboss.forge.addon.ui.context.UISelection;
 import org.jboss.forge.addon.ui.util.Selections;
 import org.jboss.forge.furnace.services.Imported;
 import org.jboss.forge.netbeans.runtime.FurnaceService;
+import org.jboss.forge.netbeans.ui.NbUIProvider;
+import org.netbeans.spi.project.ui.support.ProjectChooser;
 import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataObject;
 import org.openide.nodes.Node;
@@ -91,13 +92,17 @@ public class NbUIContext extends AbstractUIContext {
         ResourceFactory resourceFactory = FurnaceService.INSTANCE.getResourceFactory();
         List<Resource<?>> resources = new ArrayList<>();
         Node[] currentNodes = TopComponent.getRegistry().getCurrentNodes();
-        if (currentNodes != null) {
+        if (currentNodes != null && currentNodes.length > 0) {
             for (Node currentNode : currentNodes) {
                 DataObject dataObject = currentNode.getLookup().lookup(DataObject.class);
                 File file = FileUtil.toFile(dataObject.getPrimaryFile());
                 Resource<File> resource = resourceFactory.create(file);
                 resources.add(resource);
             }
+        } else {
+            File file = ProjectChooser.getProjectsFolder();
+            Resource<File> resource = resourceFactory.create(file);
+            resources.add(resource);
         }
         return resources;
     }
