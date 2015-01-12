@@ -7,6 +7,7 @@
 package org.jboss.forge.netbeans.ui.wizard.component;
 
 import org.jboss.forge.addon.ui.input.InputComponent;
+import org.jboss.forge.netbeans.ui.wizard.component.many.CheckboxTableComponentBuilder;
 
 /**
  * A factory for {@link ComponentBuilder} instances.
@@ -24,6 +25,7 @@ public enum ComponentBuilderRegistry {
         new TextboxComponentBuilder(),
         new SpinnerComponentBuilder(),
         new PasswordComponentBuilder(),
+        new CheckboxTableComponentBuilder(),
         new FallbackComponentBuilder()
     };
 
