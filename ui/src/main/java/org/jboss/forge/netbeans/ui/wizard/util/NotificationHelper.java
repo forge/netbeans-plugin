@@ -55,17 +55,19 @@ public class NotificationHelper {
      * @param result
      */
     public static void displayResult(String title, Result result) {
-        if (result instanceof CompositeResult) {
-            for (Result childResult : ((CompositeResult) result).getResults()) {
-                displayResult(title, childResult);
-            }
-        } else {
-            final NotificationDisplayer notificationDisplayer = NotificationDisplayer.getDefault();
-            if (result.getMessage() != null) {
-                if (result instanceof Failed) {
-                    notificationDisplayer.notify(title, ImageUtilities.loadImageIcon(ICON, false), result.getMessage(), null);
-                } else {
-                    notificationDisplayer.notify(title, ImageUtilities.loadImageIcon(ICON, false), result.getMessage(), null);
+        if (result != null) {
+            if (result instanceof CompositeResult) {
+                for (Result childResult : ((CompositeResult) result).getResults()) {
+                    displayResult(title, childResult);
+                }
+            } else {
+                final NotificationDisplayer notificationDisplayer = NotificationDisplayer.getDefault();
+                if (result.getMessage() != null) {
+                    if (result instanceof Failed) {
+                        notificationDisplayer.notify(title, ImageUtilities.loadImageIcon(ICON, false), result.getMessage(), null);
+                    } else {
+                        notificationDisplayer.notify(title, ImageUtilities.loadImageIcon(ICON, false), result.getMessage(), null);
+                    }
                 }
             }
         }
