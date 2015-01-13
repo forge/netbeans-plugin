@@ -9,6 +9,11 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 import org.jboss.forge.addon.convert.ConverterFactory;
 import org.jboss.forge.addon.resource.ResourceFactory;
 import org.jboss.forge.addon.ui.command.CommandFactory;
@@ -19,6 +24,7 @@ import org.jboss.forge.furnace.repositories.AddonRepositoryMode;
 import org.jboss.forge.furnace.se.FurnaceFactory;
 import org.jboss.forge.furnace.services.Imported;
 import org.jboss.forge.furnace.spi.ContainerLifecycleListener;
+import org.jboss.forge.furnace.util.OperatingSystemUtils;
 import org.openide.util.Exceptions;
 import org.openide.util.Utilities;
 
@@ -48,7 +54,7 @@ public enum FurnaceService {
     public ConverterFactory getConverterFactory() {
         return lookup(ConverterFactory.class);
     }
-    
+
     public ResourceFactory getResourceFactory() {
         return lookup(ResourceFactory.class);
     }
@@ -89,22 +95,25 @@ public enum FurnaceService {
         try {
             // MODULES-136
             System.setProperty("modules.ignore.jdk.factory", "true");
-            // TODO: List the JARs dinamically
-            URL[] urls = {
-                Utilities.toURI(new File("/home/ggastald/.m2/repository/org/jboss/forge/forge-javassist/2/forge-javassist-2.jar")).toURL(),
-                Utilities.toURI(new File("/home/ggastald/.m2/repository/org/jboss/forge/furnace/furnace/2.13.0.Final/furnace-2.13.0.Final.jar")).toURL(),
-                Utilities.toURI(new File("/home/ggastald/.m2/repository/org/jboss/forge/furnace/furnace-api/2.13.0.Final/furnace-api-2.13.0.Final.jar")).toURL(),
-                Utilities.toURI(new File("/home/ggastald/.m2/repository/org/jboss/forge/furnace/furnace-proxy/2.13.0.Final/furnace-proxy-2.13.0.Final.jar")).toURL(),
-                Utilities.toURI(new File("/home/ggastald/.m2/repository/org/jboss/logmanager/jboss-logmanager/1.4.1.Final/jboss-logmanager-1.4.1.Final.jar")).toURL(),
-                Utilities.toURI(new File("/home/ggastald/.m2/repository/org/jboss/forge/jboss-modules/1.3.0.Final-forge/jboss-modules-1.3.0.Final-forge.jar")).toURL(),
-                Utilities.toURI(new File("/home/ggastald/.m2/repository/net/sf/jgrapht/jgrapht/0.8.3/jgrapht-0.8.3.jar")).toURL(),
-                Utilities.toURI(new File("/home/ggastald/.m2/repository/org/jboss/forge/xml-parser/1.0.0.Final/xml-parser-1.0.0.Final.jar")).toURL()
-            };
-            final URLClassLoader furnaceClassLoader = new URLClassLoader(urls);
+            URL codeSourceLocation = bootpath.BootpathMarker.class.getProtectionDomain().getCodeSource().getLocation();
+            URL location = new URL(codeSourceLocation.toString().replace("jar:", "").replace("!/", ""));
+            List<URL> urls = new ArrayList<>();
+            try (ZipInputStream zis = new ZipInputStream(location.openStream())) {
+                ZipEntry entry;
+                while ((entry = zis.getNextEntry()) != null) {
+                    if (entry.getName().contains(".jar")) {
+                        urls.add(bootpath.BootpathMarker.class.getResource(entry.getName().replace("bootpath/", "")));
+                    }
+                }
+            }
+            urls = flushURLs(urls);
+            final URLClassLoader furnaceClassLoader = new URLClassLoader(urls.toArray(new URL[urls.size()]));
             furnace = FurnaceFactory.getInstance(getClass().getClassLoader(), furnaceClassLoader);
-            //TODO: Change this
+//            String cnb = Modules.getDefault().ownerOf(getClass()).getCodeNameBase();
+//            File locate = InstalledFileLocator.getDefault().locate("addon-repository", cnb, false);
+//            System.out.println("LOCATE> "+locate);
             furnace.addRepository(AddonRepositoryMode.IMMUTABLE, new File("/home/ggastald/workspace/netbeans-plugin/runtime/target/classes/addon-repository"));
-            furnace.addRepository(AddonRepositoryMode.MUTABLE, new File("/home/ggastald/.forge/addons"));
+            furnace.addRepository(AddonRepositoryMode.MUTABLE, new File(OperatingSystemUtils.getUserForgeDir(), "addons"));
             furnace.addContainerLifecycleListener(new ContainerLifecycleListener() {
 
                 @Override
@@ -141,5 +150,18 @@ public enum FurnaceService {
         } catch (Exception ex) {
             Exceptions.printStackTrace(ex);
         }
+    }
+
+    private List<URL> flushURLs(List<URL> urls) throws IOException {
+        List<URL> result = new ArrayList<>();
+        File tmpDir = OperatingSystemUtils.createTempDir();
+        for (URL url : urls) {
+            String path = url.getPath();
+            path = path.substring(path.lastIndexOf("/") + 1);
+            File newFile = new File(tmpDir, path);
+            Files.copy(url.openStream(), newFile.toPath());
+            result.add(Utilities.toURI(newFile).toURL());
+        }
+        return result;
     }
 }
