@@ -60,6 +60,7 @@ public class JavaPackageChooserComponentBuilder extends ComponentBuilder<JComboB
             } else {
                 model = new DefaultComboBoxModel();
             }
+            model.setSelectedItem(input.getValue());
             final JComboBox combo = new JComboBox(model);
             if (input instanceof UIInput) {
                 combo.setEditable(true);
