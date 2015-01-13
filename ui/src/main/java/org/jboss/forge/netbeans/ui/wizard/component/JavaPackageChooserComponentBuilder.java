@@ -13,7 +13,6 @@ import java.io.IOException;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -43,10 +42,10 @@ import org.openide.util.lookup.ServiceProvider;
  * @author <a href="mailto:ggastald@redhat.com">George Gastaldi</a>
  */
 @ServiceProvider(position = 110, service = ComponentBuilder.class)
-public class JavaPackageChooserComponentBuilder extends ComponentBuilder<JComponent> {
+public class JavaPackageChooserComponentBuilder extends ComponentBuilder<JComboBox> {
 
     @Override
-    public JComponent build(Container container, final InputComponent<?, Object> input, final CommandController controller, final ChangeSupport changeSupport) {
+    public JComboBox build(Container container, final InputComponent<?, Object> input, final CommandController controller, final ChangeSupport changeSupport) {
         Resource<File> resource = (Resource<File>) controller.getContext().getInitialSelection().get();
         FileObject dir = FileUtil.toFileObject(resource.getUnderlyingResourceObject());
         Project project;
@@ -55,6 +54,7 @@ public class JavaPackageChooserComponentBuilder extends ComponentBuilder<JCompon
             ComboBoxModel model;
             if (project != null) {
                 Sources sources = ProjectUtils.getSources(project);
+                // TODO: Add another combo to select source groups?
                 SourceGroup[] groups = sources.getSourceGroups(JavaProjectConstants.SOURCES_TYPE_JAVA);
                 model = PackageView.createListView(groups[0]);
             } else {
