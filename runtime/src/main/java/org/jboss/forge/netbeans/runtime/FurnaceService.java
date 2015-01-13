@@ -25,6 +25,8 @@ import org.jboss.forge.furnace.se.FurnaceFactory;
 import org.jboss.forge.furnace.services.Imported;
 import org.jboss.forge.furnace.spi.ContainerLifecycleListener;
 import org.jboss.forge.furnace.util.OperatingSystemUtils;
+import org.openide.modules.InstalledFileLocator;
+import org.openide.modules.Modules;
 import org.openide.util.Exceptions;
 import org.openide.util.Utilities;
 
@@ -109,10 +111,13 @@ public enum FurnaceService {
             urls = flushURLs(urls);
             final URLClassLoader furnaceClassLoader = new URLClassLoader(urls.toArray(new URL[urls.size()]));
             furnace = FurnaceFactory.getInstance(getClass().getClassLoader(), furnaceClassLoader);
-//            String cnb = Modules.getDefault().ownerOf(getClass()).getCodeNameBase();
-//            File locate = InstalledFileLocator.getDefault().locate("addon-repository", cnb, false);
-//            System.out.println("LOCATE> "+locate);
-            furnace.addRepository(AddonRepositoryMode.IMMUTABLE, new File("/home/ggastald/workspace/netbeans-plugin/runtime/target/classes/addon-repository"));
+            String cnb = Modules.getDefault().ownerOf(getClass()).getCodeNameBase();
+            File locate = InstalledFileLocator.getDefault().locate("addon-repository", cnb, false);
+            if (locate != null) {
+                furnace.addRepository(AddonRepositoryMode.IMMUTABLE, locate);
+            } else {
+                throw new Exception("Default Addon Repository path not found");
+            }
             furnace.addRepository(AddonRepositoryMode.MUTABLE, new File(OperatingSystemUtils.getUserForgeDir(), "addons"));
             furnace.addContainerLifecycleListener(new ContainerLifecycleListener() {
 

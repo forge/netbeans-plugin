@@ -11,6 +11,29 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.jboss.forge.furnace</groupId>
+                <artifactId>furnace-maven-plugin</artifactId>
+                <version>${forge.version}</version>
+                <executions>
+                    <execution>
+                        <id>deploy-addons</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>addon-install</goal>
+                        </goals>
+                        <inherited>false</inherited>
+                        <configuration>
+                            <addonRepository>${project.build.directory}/addon-repository</addonRepository>
+                            <addonIds>
+                                <addonId>org.jboss.forge.addon:core,${forge.version}</addonId>
+                                <addonId>org.jboss.forge.addon:ui-example,${forge.version}</addonId>
+                                <addonId>org.jboss.forge.addon:angularjs,${angularjs.addon.version}</addonId>
+                            </addonIds>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>nbm-maven-plugin</artifactId>
                 <extensions>true</extensions>
@@ -41,6 +64,14 @@
                         <publicPackage>org.jboss.forge.addon.ui.result</publicPackage>
                         <publicPackage>org.jboss.forge.addon.ui.util</publicPackage>
                     </publicPackages>
+                    <nbmResources>
+                        <nbmResource>
+                            <!-- This is the sourcedir -->
+                            <directory>${project.build.directory}/addon-repository</directory>    
+                            <!-- This is the path relative to the installed module -->
+                            <targetPath>addon-repository</targetPath>  
+                        </nbmResource>
+                    </nbmResources>                    
                 </configuration>
             </plugin>
             <plugin>
@@ -49,29 +80,6 @@
                 <configuration>
                     <useDefaultManifestFile>true</useDefaultManifestFile>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.jboss.forge.furnace</groupId>
-                <artifactId>furnace-maven-plugin</artifactId>
-                <version>${forge.version}</version>
-                <executions>
-                    <execution>
-                        <id>deploy-addons</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>addon-install</goal>
-                        </goals>
-                        <inherited>false</inherited>
-                        <configuration>
-                            <addonRepository>${project.build.directory}/classes/addon-repository</addonRepository>
-                            <addonIds>
-                                <addonId>org.jboss.forge.addon:core,${forge.version}</addonId>
-                                <addonId>org.jboss.forge.addon:ui-example,${forge.version}</addonId>
-                                <addonId>org.jboss.forge.addon:angularjs,${angularjs.addon.version}</addonId>
-                            </addonIds>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
