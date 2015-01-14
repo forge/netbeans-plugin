@@ -26,7 +26,9 @@
                             <addonRepository>${project.build.directory}/addon-repository</addonRepository>
                             <addonIds>
                                 <addonId>org.jboss.forge.addon:core,${forge.version}</addonId>
+                                <!-- 
                                 <addonId>org.jboss.forge.addon:ui-example,${forge.version}</addonId>
+                                -->
                                 <addonId>org.jboss.forge.addon:angularjs,${angularjs.addon.version}</addonId>
                             </addonIds>
                         </configuration>
