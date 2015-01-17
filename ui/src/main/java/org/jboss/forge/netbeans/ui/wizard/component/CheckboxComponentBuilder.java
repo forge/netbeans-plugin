@@ -31,6 +31,7 @@ public class CheckboxComponentBuilder extends ComponentBuilder<JCheckBox> {
     public JCheckBox build(final Container container, final InputComponent<?, Object> input, final CommandController controller, final ChangeSupport changeSupport) {
         final JCheckBox checkbox = new JCheckBox(InputComponents.getLabelFor(input, false));
         checkbox.setEnabled(input.isEnabled());
+        checkbox.setToolTipText(input.getDescription());
         final ConverterFactory converterFactory = getConverterFactory();
         if (converterFactory != null) {
             Converter<Object, Boolean> converter = converterFactory.getConverter(input.getValueType(), Boolean.class);

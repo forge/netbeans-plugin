@@ -38,6 +38,7 @@ public class ComboComponentBuilder extends ComponentBuilder<JComboBox> {
         final DefaultComboBoxModel model = new DefaultComboBoxModel();
         final JComboBox combo = new JComboBox(model);
         combo.setEnabled(input.isEnabled());
+        combo.setToolTipText(input.getDescription());
         final UISelectOne<Object> selectOne = (UISelectOne) input;
         Converter<Object, String> converter = InputComponents.getItemLabelConverter(getConverterFactory(), selectOne);
         updateComboModel(combo, selectOne);

@@ -94,6 +94,7 @@ public abstract class ComponentBuilder<C extends JComponent> {
      */
     public void updateState(C component, InputComponent<?, ?> input) {
         setEnabled(component, input.isEnabled());
+        setTooltip(component, input.getDescription());
     }
 
     protected void setEnabled(C component, boolean enabled) {
@@ -104,5 +105,9 @@ public abstract class ComponentBuilder<C extends JComponent> {
         } else {
             component.setEnabled(enabled);
         }
+    }
+
+    protected void setTooltip(C component, String text) {
+        component.setToolTipText(text);
     }
 }

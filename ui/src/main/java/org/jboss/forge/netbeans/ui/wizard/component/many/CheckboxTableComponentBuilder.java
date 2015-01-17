@@ -46,6 +46,7 @@ public class CheckboxTableComponentBuilder extends ComponentBuilder<JTable> {
         table.setTableHeader(null);
         UISelectMany<Object> selectMany = (UISelectMany<Object>) input;
         table.setEnabled(input.isEnabled());
+        table.setToolTipText(input.getDescription());
         List<String> value = getValue(selectMany);
         List<String> valueChoices = getValueChoices(selectMany);
         table.getColumnModel().getColumn(0).setMaxWidth(30);
