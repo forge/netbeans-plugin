@@ -40,13 +40,6 @@
             <version>2.4</version>
         </dependency>
         <!-- Netbeans module dependencies -->
-        <!--
-        <dependency>
-            <groupId>nl.cloudfarming.client</groupId>
-            <artifactId>lib-swingx</artifactId>
-            <version>1.6.2-NB80-NO-WS</version>
-        </dependency>
-        -->
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-netbeans-api-annotations-common</artifactId>

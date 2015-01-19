@@ -10,13 +10,18 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.JTextComponent;
 import org.jboss.forge.addon.convert.Converter;
 import org.jboss.forge.addon.convert.ConverterFactory;
+import org.jboss.forge.addon.ui.context.UIContext;
 import org.jboss.forge.addon.ui.controller.CommandController;
 import org.jboss.forge.addon.ui.hints.InputType;
+import org.jboss.forge.addon.ui.input.HasCompleter;
 import org.jboss.forge.addon.ui.input.InputComponent;
+import org.jboss.forge.addon.ui.input.UICompleter;
 import org.jboss.forge.addon.ui.input.UIInput;
 import org.jboss.forge.addon.ui.util.InputComponents;
+import org.jboss.forge.netbeans.ui.completion.AutoCompletionListener;
 import org.openide.util.ChangeSupport;
 import org.openide.util.lookup.ServiceProvider;
 
@@ -34,7 +39,7 @@ public class TextboxComponentBuilder extends ComponentBuilder<JTextField> {
         final JTextField txt = new JTextField();
         txt.setEnabled(input.isEnabled());
         txt.setToolTipText(input.getDescription());
-
+        setupAutoCompleteFor(controller.getContext(), input, txt);
         final ConverterFactory converterFactory = getConverterFactory();
         if (converterFactory != null) {
             Converter<Object, String> converter = (Converter<Object, String>) converterFactory
@@ -84,5 +89,15 @@ public class TextboxComponentBuilder extends ComponentBuilder<JTextField> {
     @Override
     protected Class<?>[] getSupportedInputComponentTypes() {
         return new Class<?>[]{UIInput.class};
+    }
+
+    protected void setupAutoCompleteFor(UIContext context, InputComponent<?, Object> input, JTextComponent txt) {
+        UICompleter completer = null;
+        if (input instanceof HasCompleter) {
+            completer = ((HasCompleter) input).getCompleter();
+        }
+        if (completer != null) {
+            txt.getDocument().addDocumentListener(new AutoCompletionListener(txt, context, input, completer));
+        }
     }
 }
