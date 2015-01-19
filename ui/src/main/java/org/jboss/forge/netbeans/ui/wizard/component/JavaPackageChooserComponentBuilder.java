@@ -17,13 +17,15 @@ import javax.swing.JLabel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.JTextComponent;
-import org.jboss.forge.addon.resource.Resource;
+import org.jboss.forge.addon.projects.ProjectFactory;
+import org.jboss.forge.addon.projects.Projects;
 import org.jboss.forge.addon.ui.controller.CommandController;
 import org.jboss.forge.addon.ui.hints.InputType;
 import org.jboss.forge.addon.ui.input.InputComponent;
 import org.jboss.forge.addon.ui.input.UIInput;
 import org.jboss.forge.addon.ui.input.UISelectOne;
 import org.jboss.forge.addon.ui.util.InputComponents;
+import org.jboss.forge.netbeans.runtime.FurnaceService;
 import org.netbeans.api.java.project.JavaProjectConstants;
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectManager;
@@ -46,13 +48,15 @@ public class JavaPackageChooserComponentBuilder extends ComponentBuilder<JComboB
 
     @Override
     public JComboBox build(Container container, final InputComponent<?, Object> input, final CommandController controller, final ChangeSupport changeSupport) {
-        Resource<File> resource = (Resource<File>) controller.getContext().getInitialSelection().get();
-        FileObject dir = FileUtil.toFileObject(resource.getUnderlyingResourceObject());
-        Project project;
+        org.jboss.forge.addon.projects.Project forgeProject = Projects.getSelectedProject(FurnaceService.INSTANCE.lookup(ProjectFactory.class), controller.getContext());
+        FileObject dir = null;
+        if (forgeProject != null) {
+            dir = FileUtil.toFileObject((File) forgeProject.getRoot().getUnderlyingResourceObject());
+        }
         try {
-            project = ProjectManager.getDefault().findProject(dir);
             ComboBoxModel model;
-            if (project != null) {
+            if (dir != null) {
+                Project project = ProjectManager.getDefault().findProject(dir);
                 Sources sources = ProjectUtils.getSources(project);
                 // TODO: Add another combo to select source groups?
                 SourceGroup[] groups = sources.getSourceGroups(JavaProjectConstants.SOURCES_TYPE_JAVA);
