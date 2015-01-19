@@ -2,8 +2,8 @@ package org.jboss.forge.netbeans.ui.wizard;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.text.MessageFormat;
-import org.jboss.forge.addon.resource.Resource;
 import org.jboss.forge.addon.ui.UIDesktop;
 import org.jboss.forge.addon.ui.command.CommandFactory;
 import org.jboss.forge.addon.ui.command.UICommand;
@@ -98,17 +98,22 @@ public class RunForgeWizardRunnable implements Runnable {
         UIDesktop desktop = context.getProvider().getDesktop();
         UISelection<Object> selection = context.getSelection();
         for (Object resource : selection) {
-            if (resource instanceof Resource) {
-                Object underlyingResourceObject = ((Resource) resource).getUnderlyingResourceObject();
+            try {
+                //Using reflection due to classloader issues
+                Method method = resource.getClass().getMethod(
+                        "getUnderlyingResourceObject");
+                Object underlyingResourceObject = method.invoke(resource);
                 if (underlyingResourceObject instanceof File) {
                     File file = (File) underlyingResourceObject;
                     if (!file.isDirectory()) {
                         desktop.open(file);
                     }
                 }
+            } catch (NoSuchMethodException ex) {
+                // ignore
+            } catch (Exception ex) {
+                Exceptions.printStackTrace(ex);
             }
         }
-
     }
-
 }
