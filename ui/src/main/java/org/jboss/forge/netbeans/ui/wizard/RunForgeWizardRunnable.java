@@ -3,7 +3,7 @@ package org.jboss.forge.netbeans.ui.wizard;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
-import org.jboss.forge.addon.resource.FileResource;
+import org.jboss.forge.addon.resource.Resource;
 import org.jboss.forge.addon.ui.UIDesktop;
 import org.jboss.forge.addon.ui.command.CommandFactory;
 import org.jboss.forge.addon.ui.command.UICommand;
@@ -96,11 +96,16 @@ public class RunForgeWizardRunnable implements Runnable {
      */
     private void openSelectedFiles(NbUIContext context) throws IOException {
         UIDesktop desktop = context.getProvider().getDesktop();
-        UISelection<FileResource<?>> selection = context.getSelection();
-        for (FileResource<?> resource : selection) {
-            File file = resource.getUnderlyingResourceObject();
-            if (!file.isDirectory()) {
-                desktop.open(file);
+        UISelection<Object> selection = context.getSelection();
+        for (Object resource : selection) {
+            if (resource instanceof Resource) {
+                Object underlyingResourceObject = ((Resource) resource).getUnderlyingResourceObject();
+                if (underlyingResourceObject instanceof File) {
+                    File file = (File) underlyingResourceObject;
+                    if (!file.isDirectory()) {
+                        desktop.open(file);
+                    }
+                }
             }
         }
 
