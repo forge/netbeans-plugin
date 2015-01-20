@@ -17,20 +17,19 @@ import org.jboss.forge.netbeans.ui.output.NbUIOutput;
  */
 public enum NbUIProvider implements UIProvider {
 
-    GUI {
-                @Override
-                public boolean isGUI() {
-                    return true;
-                }
+    GUI(true),
+    NON_GUI(false);
 
-            },
-    NON_GUI {
-                @Override
-                public boolean isGUI() {
-                    return false;
-                }
+    private final boolean gui;
 
-            };
+    private NbUIProvider(boolean gui) {
+        this.gui = gui;
+    }
+
+    @Override
+    public boolean isGUI() {
+        return gui;
+    }
 
     @Override
     public UIOutput getOutput() {

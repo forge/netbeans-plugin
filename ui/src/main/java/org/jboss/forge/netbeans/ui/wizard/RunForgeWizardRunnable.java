@@ -105,7 +105,7 @@ public class RunForgeWizardRunnable implements Runnable {
                 Object underlyingResourceObject = method.invoke(resource);
                 if (underlyingResourceObject instanceof File) {
                     File file = (File) underlyingResourceObject;
-                    if (!file.isDirectory()) {
+                    if (file.exists() && !file.isDirectory()) {
                         desktop.open(file);
                     }
                 }

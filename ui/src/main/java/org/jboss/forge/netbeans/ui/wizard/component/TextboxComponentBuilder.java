@@ -21,7 +21,7 @@ import org.jboss.forge.addon.ui.input.InputComponent;
 import org.jboss.forge.addon.ui.input.UICompleter;
 import org.jboss.forge.addon.ui.input.UIInput;
 import org.jboss.forge.addon.ui.util.InputComponents;
-import org.jboss.forge.netbeans.ui.completion.AutoCompletionListener;
+import org.jboss.forge.netbeans.ui.wizard.component.completion.AutoCompletionListener;
 import org.openide.util.ChangeSupport;
 import org.openide.util.lookup.ServiceProvider;
 
