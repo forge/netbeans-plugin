@@ -8,6 +8,7 @@ package org.jboss.forge.netbeans.ui.output;
 import java.awt.Color;
 import java.io.IOException;
 import java.io.PrintStream;
+import org.apache.commons.io.output.WriterOutputStream;
 import org.jboss.forge.addon.ui.output.UIOutput;
 import org.openide.util.Exceptions;
 import org.openide.windows.IOColorLines;
@@ -16,6 +17,8 @@ import org.openide.windows.InputOutput;
 
 /**
  * Writes to output.
+ *
+ * Depends on commons-io due to WriterOutputStream class
  *
  * @author <a href="mailto:ggastald@redhat.com">George Gastaldi</a>
  */
