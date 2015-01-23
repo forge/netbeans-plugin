@@ -30,8 +30,6 @@ public class NbUIOutput implements UIOutput {
 
     public NbUIOutput() {
         this.io = IOProvider.getDefault().getIO("JBoss Forge", false);
-        this.io.select();
-
         this.out = new PrintStream(new WriterOutputStream(this.io.getOut()), true);
         this.err = new PrintStream(new WriterOutputStream(this.io.getErr()), true);
     }
@@ -49,6 +47,7 @@ public class NbUIOutput implements UIOutput {
     @Override
     public void success(PrintStream out, String message) {
         try {
+            this.io.select();
             IOColorLines.println(io, "***SUCCESS*** " + message, Color.GREEN);
         } catch (IOException ex) {
             Exceptions.printStackTrace(ex);
@@ -58,6 +57,7 @@ public class NbUIOutput implements UIOutput {
     @Override
     public void error(PrintStream out, String message) {
         try {
+            this.io.select();
             IOColorLines.println(io, "***ERROR*** " + message, Color.RED);
         } catch (IOException ex) {
             Exceptions.printStackTrace(ex);
@@ -67,6 +67,7 @@ public class NbUIOutput implements UIOutput {
     @Override
     public void info(PrintStream out, String message) {
         try {
+            this.io.select();
             IOColorLines.println(io, "***INFO*** " + message, Color.BLUE);
         } catch (IOException ex) {
             Exceptions.printStackTrace(ex);
@@ -76,6 +77,7 @@ public class NbUIOutput implements UIOutput {
     @Override
     public void warn(PrintStream out, String message) {
         try {
+            this.io.select();
             IOColorLines.println(io, "***WARNING*** " + message, Color.ORANGE);
         } catch (IOException ex) {
             Exceptions.printStackTrace(ex);
