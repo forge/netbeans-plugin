@@ -2,6 +2,8 @@
 <!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
 <filesystem>
     <folder name="QuickSearch">
+        <folder name="Recent_hidden">
+        </folder>        
         <folder name="JBoss Forge">
             <attr name="command" stringvalue="f"/>
             <attr name="position" intvalue="0"/>

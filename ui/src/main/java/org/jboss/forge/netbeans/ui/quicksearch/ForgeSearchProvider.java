@@ -25,7 +25,13 @@ public class ForgeSearchProvider implements SearchProvider {
                 CommandFactory commandFactory = FurnaceService.INSTANCE.getCommandFactory();
                 try (NbUIContext context = new NbUIContext()) {
                     Set<String> commandNames = commandFactory.getEnabledCommandNames(context);
-                    String query = request.getText().toLowerCase();
+                    String text = request.getText();
+                    if (commandNames.contains(text)) {
+                        if (response.addResult(new RunForgeWizardRunnable(text), text)) {
+                            return;
+                        }
+                    }
+                    String query = text.toLowerCase();
                     for (final String commandName : commandNames) {
                         if (commandName.toLowerCase().contains(query)) {
                             if (!response.addResult(new RunForgeWizardRunnable(commandName), commandName)) {
