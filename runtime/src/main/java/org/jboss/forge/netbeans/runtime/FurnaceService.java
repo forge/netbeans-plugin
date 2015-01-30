@@ -28,6 +28,7 @@ import org.jboss.forge.furnace.util.OperatingSystemUtils;
 import org.openide.modules.InstalledFileLocator;
 import org.openide.modules.Modules;
 import org.openide.util.Exceptions;
+import org.openide.util.Lookup;
 import org.openide.util.Utilities;
 
 /**
@@ -134,6 +135,10 @@ public enum FurnaceService {
                 }
 
                 @Override
+                public void afterStart(Furnace frnc) throws ContainerException {
+                }
+
+                @Override
                 public void beforeStop(Furnace furnace) throws ContainerException {
                 }
 
@@ -147,6 +152,9 @@ public enum FurnaceService {
                     }
                 }
             });
+            for (ContainerLifecycleListener listener : Lookup.getDefault().lookupAll(ContainerLifecycleListener.class)) {
+                furnace.addContainerLifecycleListener(listener);
+            }
             furnace.startAsync();
             while (!furnace.getStatus().isStarted()) {
                 Thread.sleep(500);
