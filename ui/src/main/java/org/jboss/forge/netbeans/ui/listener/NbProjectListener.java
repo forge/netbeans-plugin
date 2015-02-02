@@ -34,7 +34,7 @@ import org.openide.util.lookup.ServiceProvider;
 @ServiceProvider(service = ContainerLifecycleListener.class)
 public class NbProjectListener implements ProjectListener, ContainerLifecycleListener {
 
-    private static final RequestProcessor processor = new RequestProcessor(NbProjectListener.class);
+    private final RequestProcessor processor = new RequestProcessor(NbProjectListener.class);
     private ListenerRegistration<ProjectListener> projectListenerRegistration;
 
     @Override
@@ -78,6 +78,7 @@ public class NbProjectListener implements ProjectListener, ContainerLifecycleLis
         if (projectListenerRegistration != null) {
             projectListenerRegistration.removeListener();
         }
+        processor.shutdown();
     }
 
     @Override
