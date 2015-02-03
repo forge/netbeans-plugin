@@ -1,12 +1,12 @@
 package org.jboss.forge.netbeans.ui.wizard.component;
 
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -62,26 +62,25 @@ public abstract class AbstractTextButtonComponentBuilder extends ComponentBuilde
                 changeSupport.fireChange();
             }
         });
-        JButton btn = new JButton("Browse...");
+        final JButton btn = new JButton("Browse...");
+        btn.setEnabled(input.isEnabled());
         btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 browseButtonPressed(txt, input, controller, changeSupport);
             }
         });
+        txt.addPropertyChangeListener("enabled", new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                btn.setEnabled(txt.isEnabled());
+            }
+        });
         // Add components to container
         container.add(label);
-        container.add(txt,"split 2");
-        container.add(btn,"width ::85");
+        container.add(txt, "split 2");
+        container.add(btn, "width ::85");
         return txt;
-    }
-
-    @Override
-    protected void setEnabled(JTextField txf, boolean enabled) {
-        JPanel panel = (JPanel) txf.getParent();
-        for (Component component : panel.getComponents()) {
-            component.setEnabled(enabled);
-        }
     }
 
     protected abstract void browseButtonPressed(

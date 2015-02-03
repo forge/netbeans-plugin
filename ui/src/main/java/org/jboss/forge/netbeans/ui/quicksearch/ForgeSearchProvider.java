@@ -23,6 +23,10 @@ public class ForgeSearchProvider implements SearchProvider {
             @Override
             public void run() {
                 CommandFactory commandFactory = FurnaceService.INSTANCE.getCommandFactory();
+                if (commandFactory == null) {
+                    // Furnace hasn't been fully initialized yet, try again later
+                    return;
+                }
                 try (NbUIContext context = new NbUIContext()) {
                     Set<String> commandNames = commandFactory.getEnabledCommandNames(context);
                     String text = request.getText();
