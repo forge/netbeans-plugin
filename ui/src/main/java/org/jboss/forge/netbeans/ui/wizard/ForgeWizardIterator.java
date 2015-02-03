@@ -33,11 +33,11 @@ public class ForgeWizardIterator implements WizardDescriptor.ProgressInstantiati
 
     private final WizardCommandController controller;
     private final ChangeSupport changeSupport = new ChangeSupport(this);
+    private final LinkedList<String> wizardTitles = new LinkedList<>();
 
     private WizardDescriptor wizardDescriptor;
     private ForgeWizardPanel current;
     private Result executionResult;
-    private LinkedList<String> wizardTitles = new LinkedList<>();
 
     public ForgeWizardIterator(WizardCommandController controller) {
         this.controller = controller;
