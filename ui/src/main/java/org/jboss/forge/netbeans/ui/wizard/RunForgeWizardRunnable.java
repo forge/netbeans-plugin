@@ -64,6 +64,7 @@ public class RunForgeWizardRunnable implements Runnable {
                     wizDescriptor = new WizardDescriptor(new WizardDescriptor.Panel[]{panel});
                     panel.setWizardDescriptor(wizDescriptor);
                     setDefaultWizardDescriptorValues(wizDescriptor, context, metadata);
+                    wizDescriptor.putProperty(WizardDescriptor.PROP_CONTENT_DISPLAYED, Boolean.FALSE);
                     if (DialogDisplayer.getDefault().notify(wizDescriptor) == WizardDescriptor.FINISH_OPTION) {
                         result = controller.execute();
                         openSelectedFiles(context);
@@ -80,8 +81,8 @@ public class RunForgeWizardRunnable implements Runnable {
 
     private void setDefaultWizardDescriptorValues(WizardDescriptor wizDescriptor, NbUIContext context, UICommandMetadata metadata) {
         wizDescriptor.putProperty(WizardDescriptor.PROP_AUTO_WIZARD_STYLE, Boolean.TRUE);
-        wizDescriptor.putProperty(WizardDescriptor.PROP_CONTENT_DISPLAYED, Boolean.FALSE);
-        wizDescriptor.putProperty(WizardDescriptor.PROP_CONTENT_NUMBERED, Boolean.FALSE);
+        wizDescriptor.putProperty(WizardDescriptor.PROP_CONTENT_DISPLAYED, Boolean.TRUE);
+        wizDescriptor.putProperty(WizardDescriptor.PROP_CONTENT_NUMBERED, Boolean.TRUE);
 
         // {0} will be replaced by WizardDesriptor.Panel.getComponent().getName()
         wizDescriptor.setTitleFormat(new MessageFormat("{0}"));

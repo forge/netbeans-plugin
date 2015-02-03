@@ -8,6 +8,7 @@ package org.jboss.forge.netbeans.ui.wizard;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 import javax.swing.event.ChangeListener;
@@ -36,9 +37,11 @@ public class ForgeWizardIterator implements WizardDescriptor.ProgressInstantiati
     private WizardDescriptor wizardDescriptor;
     private ForgeWizardPanel current;
     private Result executionResult;
+    private LinkedList<String> wizardTitles = new LinkedList<>();
 
     public ForgeWizardIterator(WizardCommandController controller) {
         this.controller = controller;
+        wizardTitles.add(controller.getMetadata().getName());
     }
 
     @Override
@@ -68,6 +71,7 @@ public class ForgeWizardIterator implements WizardDescriptor.ProgressInstantiati
     public void nextPanel() {
         try {
             controller.next().initialize();
+            wizardTitles.add(controller.getMetadata().getName());
             refreshCurrentPanel();
         } catch (Exception ex) {
             Exceptions.printStackTrace(ex);
@@ -78,6 +82,7 @@ public class ForgeWizardIterator implements WizardDescriptor.ProgressInstantiati
     public void previousPanel() {
         try {
             controller.previous();
+            wizardTitles.removeLast();
             refreshCurrentPanel();
         } catch (Exception ex) {
             Exceptions.printStackTrace(ex);
@@ -87,6 +92,8 @@ public class ForgeWizardIterator implements WizardDescriptor.ProgressInstantiati
     private void refreshCurrentPanel() {
         this.current = new ForgeWizardPanel(controller);
         this.current.setWizardDescriptor(wizardDescriptor);
+        wizardDescriptor.putProperty(WizardDescriptor.PROP_CONTENT_DATA, wizardTitles.toArray(new String[wizardTitles.size()]));
+        wizardDescriptor.putProperty(WizardDescriptor.PROP_CONTENT_SELECTED_INDEX, wizardTitles.size() - 1);
     }
 
     @Override
