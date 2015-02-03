@@ -6,7 +6,6 @@
  */
 package org.jboss.forge.netbeans.ui.wizard.component;
 
-import java.awt.Component;
 import java.awt.Container;
 import javax.swing.JComponent;
 import org.jboss.forge.addon.convert.ConverterFactory;
@@ -98,13 +97,7 @@ public abstract class ComponentBuilder<C extends JComponent> {
     }
 
     protected void setEnabled(C component, boolean enabled) {
-        if (component instanceof Container) {
-            for (Component c : ((Container) component).getComponents()) {
-                c.setEnabled(enabled);
-            }
-        } else {
-            component.setEnabled(enabled);
-        }
+        component.setEnabled(enabled);
     }
 
     protected void setTooltip(C component, String text) {
