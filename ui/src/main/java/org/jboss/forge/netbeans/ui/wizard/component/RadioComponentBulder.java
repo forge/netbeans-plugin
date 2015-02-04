@@ -5,6 +5,7 @@
  */
 package org.jboss.forge.netbeans.ui.wizard.component;
 
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -58,6 +59,13 @@ public class RadioComponentBulder extends ComponentBuilder<JPanel> {
         container.add(new JLabel(InputComponents.getLabelFor(input, true)));
         container.add(panel);
         return panel;
+    }
+
+    @Override
+    protected void setEnabled(JPanel component, boolean enabled) {
+        for(Component child : component.getComponents()) {
+            child.setEnabled(enabled);
+        }
     }
 
     @Override
