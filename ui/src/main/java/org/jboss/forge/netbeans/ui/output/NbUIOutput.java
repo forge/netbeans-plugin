@@ -33,7 +33,7 @@ public class NbUIOutput implements UIOutput {
     private final PrintStream err;
 
     public NbUIOutput() {
-        this.io = IOProvider.getDefault().getIO("JBoss Forge", false);
+        this.io = IOProvider.getDefault().getIO("JBoss Forge", true);
         this.out = new PrintStream(new WriterOutputStream(this.io.getOut()), true);
         this.err = new PrintStream(new WriterOutputStream(this.io.getErr()), true);
     }
