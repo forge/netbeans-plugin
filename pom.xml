@@ -71,5 +71,6 @@
         <netbeans.version>RELEASE80</netbeans.version>
         <brandingToken>jbossforge</brandingToken>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
     </properties>
 </project>
