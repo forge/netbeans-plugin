@@ -28,6 +28,7 @@ import org.jboss.forge.furnace.repositories.AddonRepositoryMode;
 import org.jboss.forge.furnace.se.FurnaceFactory;
 import org.jboss.forge.furnace.services.Imported;
 import org.jboss.forge.furnace.spi.ContainerLifecycleListener;
+import org.jboss.forge.furnace.util.AddonCompatibilityStrategies;
 import org.jboss.forge.furnace.util.OperatingSystemUtils;
 import org.openide.modules.InstalledFileLocator;
 import org.openide.modules.Modules;
@@ -159,6 +160,8 @@ public enum FurnaceService {
             for (ContainerLifecycleListener listener : Lookup.getDefault().lookupAll(ContainerLifecycleListener.class)) {
                 furnace.addContainerLifecycleListener(listener);
             }
+            // Using a lenient addon compatibility strategy
+            furnace.setAddonCompatibilityStrategy(AddonCompatibilityStrategies.LENIENT);
             furnace.startAsync();
             while (!furnace.getStatus().isStarted()) {
                 Thread.sleep(500);
