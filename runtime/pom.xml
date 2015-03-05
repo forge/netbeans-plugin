@@ -14,7 +14,7 @@ Contributors:
     <parent>
         <groupId>org.jboss.forge.netbeans</groupId>
         <artifactId>jbossforge-parent</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.1.Final</version>
     </parent>
     <artifactId>runtime</artifactId>
     <packaging>nbm</packaging>
