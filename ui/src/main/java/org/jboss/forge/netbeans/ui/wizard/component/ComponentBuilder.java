@@ -11,15 +11,20 @@ package org.jboss.forge.netbeans.ui.wizard.component;
 
 import java.awt.Container;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import org.jboss.forge.addon.convert.ConverterFactory;
 import org.jboss.forge.addon.ui.controller.CommandController;
 import org.jboss.forge.addon.ui.hints.InputType;
 import org.jboss.forge.addon.ui.input.InputComponent;
 import org.jboss.forge.addon.ui.util.InputComponents;
+import org.jboss.forge.furnace.util.Strings;
 import org.jboss.forge.netbeans.runtime.FurnaceService;
 import org.openide.util.ChangeSupport;
 
 public abstract class ComponentBuilder<C extends JComponent> {
+
+    private static final String NOTE_CLIENT_PROPERTY_KEY = "forge.note";
 
     /**
      * Builds a UI Component object based on the input
@@ -88,6 +93,16 @@ public abstract class ComponentBuilder<C extends JComponent> {
         return FurnaceService.INSTANCE.getConverterFactory();
     }
 
+    public void setupNote(JPanel parent, C component, InputComponent<?, ?> input) {
+        JLabel noteLabel = new JLabel();
+        String note = input.getNote();
+        if (!Strings.isNullOrEmpty(note)) {
+            noteLabel.setText(note);
+        }
+        parent.add(noteLabel,"skip 1,hidemode 2");
+        component.putClientProperty(NOTE_CLIENT_PROPERTY_KEY, noteLabel);
+    }
+
     /**
      * Called when any change in the produced {@link JComponent} happens
      *
@@ -97,6 +112,7 @@ public abstract class ComponentBuilder<C extends JComponent> {
     public void updateState(C component, InputComponent<?, ?> input) {
         setEnabled(component, input.isEnabled());
         setTooltip(component, input.getDescription());
+        setNote(component, input.getNote());
     }
 
     protected void setEnabled(C component, boolean enabled) {
@@ -105,5 +121,12 @@ public abstract class ComponentBuilder<C extends JComponent> {
 
     protected void setTooltip(C component, String text) {
         component.setToolTipText(text);
+    }
+
+    protected void setNote(C component, String note) {
+        JLabel noteLabel = (JLabel) component.getClientProperty(NOTE_CLIENT_PROPERTY_KEY);
+        if (noteLabel != null) {
+            noteLabel.setText(note);
+        }
     }
 }

@@ -60,7 +60,8 @@ public class ForgeWizardPanel implements WizardDescriptor.ValidatingPanel<Wizard
 
             final ComponentBuilder builder = ComponentBuilderRegistry.INSTANCE.getBuilderFor(value);
             final JComponent jc = builder.build(panel, value, controller, changeSupport);
-
+            //Setup the note below the component
+            builder.setupNote(panel, jc, value);
             guiComponents.put(value, jc);
 
             // Update state after a change is detected
