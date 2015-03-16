@@ -21,6 +21,33 @@ Contributors:
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack-furnace</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.jboss.forge.furnace</groupId>
+                                    <artifactId>furnace-se</artifactId>
+                                    <version>${furnace.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>${project.build.directory}</outputDirectory>
+                                    <includes>bootpath/*.jar</includes>
+                                    <excludes>**/*.class</excludes>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>            
+            <plugin>
                 <groupId>org.jboss.forge.furnace</groupId>
                 <artifactId>furnace-maven-plugin</artifactId>
                 <version>${furnace.version}</version>
@@ -36,6 +63,7 @@ Contributors:
                             <addonRepository>${project.build.directory}/addon-repository</addonRepository>
                             <addonIds>
                                 <addonId>org.jboss.forge.addon:core,${forge.version}</addonId>
+                                <addonId>org.jboss.forge.addon:ui-example,${forge.version}</addonId>
                                 <addonId>org.jboss.forge.addon:angularjs,${angularjs.addon.version}</addonId>
                             </addonIds>
                         </configuration>
@@ -58,6 +86,7 @@ Contributors:
                         <publicPackage>org.jboss.forge.furnace.proxy</publicPackage>
                         <publicPackage>org.jboss.forge.furnace.services</publicPackage>
                         <publicPackage>org.jboss.forge.furnace.spi</publicPackage>
+                        <publicPackage>org.jboss.forge.furnace.util</publicPackage>
                         <publicPackage>org.jboss.forge.addon.convert</publicPackage>
                         <publicPackage>org.jboss.forge.addon.projects</publicPackage>
                         <publicPackage>org.jboss.forge.addon.projects.facets</publicPackage>
@@ -80,6 +109,12 @@ Contributors:
                             <directory>${project.build.directory}/addon-repository</directory>    
                             <!-- This is the path relative to the installed module -->
                             <targetPath>addon-repository</targetPath>  
+                        </nbmResource>
+                        <nbmResource>
+                            <!-- This is the sourcedir -->
+                            <directory>${project.build.directory}/bootpath</directory>    
+                            <!-- This is the path relative to the installed module -->
+                            <targetPath>bootpath</targetPath>  
                         </nbmResource>
                     </nbmResources>                    
                 </configuration>

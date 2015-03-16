@@ -13,11 +13,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 import org.jboss.forge.addon.convert.ConverterFactory;
 import org.jboss.forge.addon.resource.ResourceFactory;
 import org.jboss.forge.addon.ui.command.CommandFactory;
@@ -103,21 +98,12 @@ public enum FurnaceService {
         try {
             // MODULES-136
             System.setProperty("modules.ignore.jdk.factory", "true");
-            URL codeSourceLocation = bootpath.BootpathMarker.class.getProtectionDomain().getCodeSource().getLocation();
-            URL location = new URL(codeSourceLocation.toString().replace("jar:", "").replace("!/", ""));
-            List<URL> urls = new ArrayList<>();
-            try (ZipInputStream zis = new ZipInputStream(location.openStream())) {
-                ZipEntry entry;
-                while ((entry = zis.getNextEntry()) != null) {
-                    if (entry.getName().contains(".jar")) {
-                        urls.add(bootpath.BootpathMarker.class.getResource(entry.getName().replace("bootpath/", "")));
-                    }
-                }
-            }
-            urls = flushURLs(urls);
-            final URLClassLoader furnaceClassLoader = new URLClassLoader(urls.toArray(new URL[urls.size()]));
-            furnace = FurnaceFactory.getInstance(getClass().getClassLoader(), furnaceClassLoader);
             String cnb = Modules.getDefault().ownerOf(getClass()).getCodeNameBase();
+            File bootpath = InstalledFileLocator.getDefault().locate("bootpath", cnb, false);
+            URL[] urls = toURLs(bootpath.listFiles());
+            final URLClassLoader furnaceClassLoader = new URLClassLoader(urls);
+            furnace = FurnaceFactory.getInstance(getClass().getClassLoader(), furnaceClassLoader);
+            
             File locate = InstalledFileLocator.getDefault().locate("addon-repository", cnb, false);
             if (locate != null) {
                 furnace.addRepository(AddonRepositoryMode.IMMUTABLE, locate);
@@ -171,17 +157,13 @@ public enum FurnaceService {
             Exceptions.printStackTrace(ex);
         }
     }
-
-    private List<URL> flushURLs(List<URL> urls) throws IOException {
-        List<URL> result = new ArrayList<>();
-        File tmpDir = OperatingSystemUtils.createTempDir();
-        for (URL url : urls) {
-            String path = url.getPath();
-            path = path.substring(path.lastIndexOf("/") + 1);
-            File newFile = new File(tmpDir, path);
-            Files.copy(url.openStream(), newFile.toPath());
-            result.add(Utilities.toURI(newFile).toURL());
+    
+    private URL[] toURLs(File[] files) throws IOException {
+        int length = files.length;
+        URL[] urls = new URL[length];
+        for (int i = 0; i < length; i++) {
+            urls[i] = Utilities.toURI(files[i]).toURL();
         }
-        return result;
+        return urls;
     }
 }
