@@ -38,6 +38,11 @@
                         <brandingToken>${brandingToken}</brandingToken>
                         <cluster>${brandingToken}</cluster>
                         <useOSGiDependencies>true</useOSGiDependencies>
+                        <!-- Keystore properties -->
+                        <keystorealias>netbeans-plugin</keystorealias>
+                        <keystoretype>JKS</keystoretype>
+                        <keystore>${keystore.path}</keystore>
+                        <keystorepassword>${keystore.password}</keystorepassword>
                     </configuration>
                 </plugin>
             </plugins>
@@ -56,12 +61,6 @@
         <brandingToken>jbossforge</brandingToken>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
-        
-        <keystore.type>JKS</keystore.type>
-        <keystore.alias>netbeans-plugin</keystore.alias>
-        <keystore.store.password>${keystore.password}</keystore.store.password>
-        <keystore.key.password>${keystore.password}</keystore.key.password>
-
     </properties>
     <scm>
         <connection>scm:git:git://github.com/forge/netbeans-plugin.git</connection>
@@ -99,32 +98,6 @@
                             </execution>
                         </executions>
                     </plugin>                    
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-jarsigner-plugin</artifactId>
-                        <version>1.4</version>
-                        <configuration>
-                            <storetype>${keystore.type}</storetype>
-                            <keystore>${keystore.path}</keystore>
-                            <alias>${keystore.alias}</alias>
-                            <storepass>${keystore.store.password}</storepass>
-                            <keypass>${keystore.key.password}</keypass>                                    
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>sign</id>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>verify</id>
-                                <goals>
-                                    <goal>verify</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
                 </plugins>
             </build>
         </profile>
