@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-   <parent>
-      <groupId>org.jboss</groupId>
-      <artifactId>jboss-parent</artifactId>
-      <version>16</version>
-   </parent>
+    <parent>
+        <groupId>org.jboss</groupId>
+        <artifactId>jboss-parent</artifactId>
+        <version>17</version>
+    </parent>
     <groupId>org.jboss.forge.netbeans</groupId>
     <artifactId>jbossforge-parent</artifactId>
     <version>1.0.3-SNAPSHOT</version>
@@ -40,25 +40,10 @@
                         <useOSGiDependencies>true</useOSGiDependencies>
                     </configuration>
                 </plugin>
-                <plugin>
-                    <!-- NetBeans 6.9+ requires JDK 6, starting NetBeans 7.4 source 1.7 is required -->
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>2.5.1</version>
-                    <configuration>
-                        <source>1.7</source>
-                        <target>1.7</target>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-jar-plugin</artifactId>
-                    <version>2.4</version>
-                </plugin>
             </plugins>
         </pluginManagement>
     </build>
-
+    
     <modules>
         <module>branding</module>
         <module>application</module>
@@ -71,12 +56,77 @@
         <brandingToken>jbossforge</brandingToken>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
+        
+        <keystore.type>JKS</keystore.type>
+        <keystore.alias>netbeans-plugin</keystore.alias>
+        <keystore.store.password>${keystore.password}</keystore.store.password>
+        <keystore.key.password>${keystore.password}</keystore.key.password>
+
     </properties>
-   <scm>
-      <connection>scm:git:git://github.com/forge/netbeans-plugin.git</connection>
-      <developerConnection>scm:git:git@github.com:forge/netbeans-plugin.git</developerConnection>
-      <url>http://github.com/forge/netbeans-plugin</url>
-      <tag>HEAD</tag>
-   </scm>
+    <scm>
+        <connection>scm:git:git://github.com/forge/netbeans-plugin.git</connection>
+        <developerConnection>scm:git:git@github.com:forge/netbeans-plugin.git</developerConnection>
+        <url>http://github.com/forge/netbeans-plugin</url>
+        <tag>HEAD</tag>
+    </scm>
     
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-enforcer-plugin</artifactId>
+                        <version>1.4</version>
+                        <executions>
+                            <execution>
+                                <id>enforce-keystore-properties</id>
+                                <goals>
+                                    <goal>enforce</goal>
+                                </goals>
+                                <configuration>
+                                    <rules>
+                                        <requireProperty>
+                                            <property>keystore.path</property>
+                                        </requireProperty>
+                                        <requireProperty>
+                                            <property>keystore.password</property>
+                                        </requireProperty>
+                                    </rules>
+                                    <fail>true</fail>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>                    
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jarsigner-plugin</artifactId>
+                        <version>1.4</version>
+                        <configuration>
+                            <storetype>${keystore.type}</storetype>
+                            <keystore>${keystore.path}</keystore>
+                            <alias>${keystore.alias}</alias>
+                            <storepass>${keystore.store.password}</storepass>
+                            <keypass>${keystore.key.password}</keypass>                                    
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>sign</id>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>verify</id>
+                                <goals>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
