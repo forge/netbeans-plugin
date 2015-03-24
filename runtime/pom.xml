@@ -17,6 +17,8 @@ Contributors:
         <version>1.0.4-SNAPSHOT</version>
     </parent>
     <artifactId>runtime</artifactId>
+    <name>JBoss Forge Runtime</name>
+    <url>http://forge.jboss.org</url>
     <packaging>nbm</packaging>
     <build>
         <plugins>

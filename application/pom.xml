@@ -10,7 +10,7 @@
     <artifactId>jbossforge-app</artifactId>
     <packaging>nbm-application</packaging>
 
-    <name>jbossforge-app</name>
+    <name>JBoss Forge Application</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

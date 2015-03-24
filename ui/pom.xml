@@ -17,6 +17,8 @@ Contributors:
         <version>1.0.4-SNAPSHOT</version>
     </parent>
     <artifactId>ui</artifactId>
+    <name>JBoss Forge UI</name>
+    <url>http://forge.jboss.org</url>
     <packaging>nbm</packaging>
     <build>
         <plugins>

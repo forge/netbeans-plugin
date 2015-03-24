@@ -10,7 +10,7 @@
   <artifactId>jbossforge-branding</artifactId>
   <packaging>nbm</packaging>
 
-  <name>jbossforge-branding</name>
+  <name>JBoss Forge Branding</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -11,7 +11,9 @@
     <version>1.0.4-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>jbossforge-parent</name>
+    <name>JBoss Forge Parent Project</name>
+    <description>The fastest way to build applications, share your software, and enjoy doing it</description>
+    <url>http://forge.jboss.org</url>
 
     <repositories>
         <!--
