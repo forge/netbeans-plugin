@@ -14,7 +14,12 @@
     <name>JBoss Forge Parent Project</name>
     <description>The fastest way to build applications, share your software, and enjoy doing it</description>
     <url>http://forge.jboss.org</url>
-
+   <licenses>
+      <license>
+         <name>Eclipse Public License version 1.0</name>
+         <url>http://www.eclipse.org/legal/epl-v10.html</url>
+      </license>
+   </licenses>
     <repositories>
         <!--
         Repository hosting NetBeans modules, especially APIs.
