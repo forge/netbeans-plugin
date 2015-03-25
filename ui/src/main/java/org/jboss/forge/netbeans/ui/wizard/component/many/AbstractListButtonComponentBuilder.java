@@ -49,7 +49,7 @@ public abstract class AbstractListButtonComponentBuilder extends ComponentBuilde
         JPanel panel = new JPanel(new MigLayout("fill"));
         panel.setBorder(panelBorder);
         final DefaultListModel<String> model = new DefaultListModel<>();
-        final JList list = new JList(model);
+        final JList<String> list = new JList<>(model);
         list.setEnabled(input.isEnabled());
         list.setToolTipText(input.getDescription());
         UIInputMany<Object> inputMany = (UIInputMany<Object>) input;

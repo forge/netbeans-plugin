@@ -1,4 +1,0 @@
-Manifest-Version: 1.0
-OpenIDE-Module-Install: org/jboss/forge/netbeans/runtime/Installer.class
-OpenIDE-Module-Localizing-Bundle: org/jboss/forge/netbeans/runtime/Bundle.properties
-OpenIDE-Module-Display-Category: JBoss

@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ServiceLoader;
 import org.jboss.forge.addon.convert.ConverterFactory;
 import org.jboss.forge.addon.resource.ResourceFactory;
 import org.jboss.forge.addon.ui.command.CommandFactory;
@@ -28,7 +29,6 @@ import org.jboss.forge.furnace.util.OperatingSystemUtils;
 import org.openide.modules.InstalledFileLocator;
 import org.openide.modules.Modules;
 import org.openide.util.Exceptions;
-import org.openide.util.Lookup;
 import org.openide.util.Utilities;
 
 /**
@@ -91,9 +91,6 @@ public enum FurnaceService {
         }
     }
 
-    /**
-     * TODO: This method should be moved to another class
-     */
     private void createFurnace() {
         try {
             // MODULES-136
@@ -143,7 +140,7 @@ public enum FurnaceService {
                     }
                 }
             });
-            for (ContainerLifecycleListener listener : Lookup.getDefault().lookupAll(ContainerLifecycleListener.class)) {
+            for (ContainerLifecycleListener listener : ServiceLoader.load(ContainerLifecycleListener.class)) {
                 furnace.addContainerLifecycleListener(listener);
             }
             // Using a lenient addon compatibility strategy

@@ -69,7 +69,7 @@ public class ComboComponentBuilder extends ComponentBuilder<JComboBox> {
     }
 
     private void updateComboModel(JComboBox combo, UISelectOne<Object> selectOne) {
-        DefaultComboBoxModel model = (DefaultComboBoxModel) combo.getModel();
+        DefaultComboBoxModel<String> model = (DefaultComboBoxModel<String>) combo.getModel();
         String[] choices = getChoices(model);
         String[] values = getValueChoices(selectOne);
         if (!Arrays.equals(choices, values)) {

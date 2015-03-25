@@ -60,7 +60,6 @@
         <module>branding</module>
         <module>application</module>
         <module>ui</module>
-        <module>runtime</module>
     </modules>
 
     <properties>
