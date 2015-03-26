@@ -17,7 +17,7 @@ Contributors:
         <version>1.0.5-SNAPSHOT</version>
     </parent>
     <artifactId>ui</artifactId>
-    <name>JBoss Forge UI</name>
+    <name>JBoss Forge</name>
     <url>http://forge.jboss.org</url>
     <packaging>nbm</packaging>
     <build>
@@ -28,6 +28,7 @@ Contributors:
                 <extensions>true</extensions>
                 <configuration>
                     <useOSGiDependencies>false</useOSGiDependencies>
+                    <requiresRestart>true</requiresRestart>
                 </configuration>
             </plugin>
             <plugin>

@@ -77,6 +77,7 @@ Contributors:
                 <extensions>true</extensions>
                 <configuration>
                     <useOSGiDependencies>false</useOSGiDependencies>
+                    <requiresRestart>true</requiresRestart>
                     <publicPackages>
                         <!-- Local packages -->
                         <publicPackage>org.jboss.forge.netbeans.runtime</publicPackage>
