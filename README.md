@@ -1,7 +1,9 @@
-netbeans-plugin
-===============
-
 NetBeans UI support for Forge 2
+================================
+
+This is the official NetBeans plugin available in http://plugins.netbeans.org/plugin/57296/
+
+[![Build Status](https://travis-ci.org/forge/netbeans-plugin.svg?branch=master)](https://travis-ci.org/forge/netbeans-plugin)
 
 Build and Run
 ==============
