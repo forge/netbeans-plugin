@@ -52,6 +52,11 @@ Contributors:
             <artifactId>commons-io</artifactId>
             <version>2.4</version>
         </dependency>
+        <dependency>
+            <groupId>com.fifesoft</groupId>
+            <artifactId>autocomplete</artifactId>
+            <version>2.5.4</version>
+        </dependency>
         <!-- Netbeans module dependencies -->
         <dependency>
             <groupId>org.netbeans.api</groupId>

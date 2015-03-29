@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.JTextComponent;
+import org.fife.ui.autocomplete.AutoCompletion;
 import org.jboss.forge.addon.convert.Converter;
 import org.jboss.forge.addon.convert.ConverterFactory;
 import org.jboss.forge.addon.ui.context.UIContext;
@@ -25,7 +26,7 @@ import org.jboss.forge.addon.ui.input.InputComponent;
 import org.jboss.forge.addon.ui.input.UICompleter;
 import org.jboss.forge.addon.ui.input.UIInput;
 import org.jboss.forge.addon.ui.util.InputComponents;
-import org.jboss.forge.netbeans.ui.wizard.component.completion.AutoCompletionListener;
+import org.jboss.forge.netbeans.ui.wizard.component.completion.ForgeAutoCompletionProvider;
 import org.openide.util.ChangeSupport;
 import org.openide.util.lookup.ServiceProvider;
 
@@ -96,12 +97,15 @@ public class TextboxComponentBuilder extends ComponentBuilder<JTextField> {
     }
 
     protected void setupAutoCompleteFor(UIContext context, InputComponent<?, Object> input, JTextComponent txt) {
-        UICompleter completer = null;
+        UICompleter<String> completer = null;
         if (input instanceof HasCompleter) {
             completer = ((HasCompleter) input).getCompleter();
         }
+        
         if (completer != null) {
-            txt.getDocument().addDocumentListener(new AutoCompletionListener(txt, context, input, completer));
+            ForgeAutoCompletionProvider provider = new ForgeAutoCompletionProvider(context, input, completer);
+            AutoCompletion autoCompletion = new AutoCompletion(provider);
+            autoCompletion.install(txt);
         }
     }
 }

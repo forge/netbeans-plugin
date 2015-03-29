@@ -12,7 +12,7 @@
     <packaging>pom</packaging>
 
     <name>JBoss Forge Parent Project</name>
-    <description>The fastest way to build applications, share your software, and enjoy doing it</description>
+    <description>The fastest way to build applications, share your software, and enjoy doing it. Bundled with Forge ${forge.version}</description>
     <url>http://forge.jboss.org</url>
    <licenses>
       <license>
@@ -64,6 +64,9 @@
     </modules>
 
     <properties>
+        <forge.version>2.15.2.Final</forge.version>
+        <furnace.version>2.15.3.Final</furnace.version>
+        <angularjs.addon.version>2.1.4.Final</angularjs.addon.version>
         <netbeans.version>RELEASE80</netbeans.version>
         <brandingToken>jbossforge</brandingToken>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
