@@ -10,6 +10,8 @@
 package org.jboss.forge.netbeans.ui.wizard.component;
 
 import java.awt.Container;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -94,7 +96,17 @@ public abstract class ComponentBuilder<C extends JComponent> {
     }
 
     public void setupNote(JPanel parent, C component, InputComponent<?, ?> input) {
-        JLabel noteLabel = new JLabel();
+        final JLabel noteLabel = new JLabel();
+        // Hide empty labels
+        noteLabel.addPropertyChangeListener("text", new PropertyChangeListener()
+        {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt)
+            {
+                noteLabel.setVisible(!Strings.isNullOrEmpty(noteLabel.getText()));
+            }
+        });
+        
         String note = input.getNote();
         if (!Strings.isNullOrEmpty(note)) {
             noteLabel.setText(note);
