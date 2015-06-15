@@ -14,7 +14,7 @@ Contributors:
     <parent>
         <groupId>org.jboss.forge.netbeans</groupId>
         <artifactId>jbossforge-parent</artifactId>
-        <version>1.0.8.Final</version>
+        <version>1.0.9-SNAPSHOT</version>
     </parent>
     <artifactId>runtime</artifactId>
     <name>JBoss Forge Runtime</name>
