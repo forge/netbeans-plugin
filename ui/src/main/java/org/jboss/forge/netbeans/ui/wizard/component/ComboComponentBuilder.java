@@ -34,6 +34,8 @@ import org.openide.util.lookup.ServiceProvider;
 @ServiceProvider(position = 20, service = ComponentBuilder.class)
 public class ComboComponentBuilder extends ComponentBuilder<JComboBox> {
 
+    private static final String PROCESSING_STATE = "processing_state";
+
     @Override
     public JComboBox build(final Container container,
             final InputComponent<?, Object> input,
@@ -64,8 +66,16 @@ public class ComboComponentBuilder extends ComponentBuilder<JComboBox> {
 
     @Override
     public void updateState(JComboBox combo, InputComponent<?, ?> input) {
-        super.updateState(combo, input);
-        updateComboModel(combo, (UISelectOne<Object>) input);
+        if (combo.getClientProperty(PROCESSING_STATE) != null) {
+            return;
+        }
+        try {
+            combo.putClientProperty(PROCESSING_STATE, Boolean.TRUE);
+            super.updateState(combo, input);
+            updateComboModel(combo, (UISelectOne<Object>) input);
+        } finally {
+            combo.putClientProperty(PROCESSING_STATE, null);
+        }
     }
 
     private void updateComboModel(JComboBox combo, UISelectOne<Object> selectOne) {
