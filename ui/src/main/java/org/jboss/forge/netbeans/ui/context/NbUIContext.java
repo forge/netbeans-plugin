@@ -22,6 +22,7 @@ import org.jboss.forge.addon.ui.util.Selections;
 import org.jboss.forge.furnace.services.Imported;
 import org.jboss.forge.netbeans.runtime.FurnaceService;
 import org.jboss.forge.netbeans.ui.NbUIProvider;
+import org.jboss.forge.netbeans.ui.listener.ProjectImporterCommandExecutionListener;
 import org.netbeans.spi.project.ui.support.ProjectChooser;
 import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataObject;
@@ -60,6 +61,7 @@ public class NbUIContext extends AbstractUIContext {
     }
 
     private void initialize() {
+        addCommandExecutionListener(ProjectImporterCommandExecutionListener.INSTANCE);
         Imported<UIContextListener> services = FurnaceService.INSTANCE
                 .lookupImported(UIContextListener.class);
         if (services != null) {

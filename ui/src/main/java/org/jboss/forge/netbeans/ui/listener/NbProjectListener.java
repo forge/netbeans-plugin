@@ -9,8 +9,6 @@
  */
 package org.jboss.forge.netbeans.ui.listener;
 
-import java.io.File;
-import java.io.IOException;
 import org.jboss.forge.addon.projects.Project;
 import org.jboss.forge.addon.projects.ProjectFactory;
 import org.jboss.forge.addon.projects.ProjectListener;
@@ -19,11 +17,6 @@ import org.jboss.forge.furnace.exception.ContainerException;
 import org.jboss.forge.furnace.spi.ContainerLifecycleListener;
 import org.jboss.forge.furnace.spi.ListenerRegistration;
 import org.jboss.forge.netbeans.runtime.FurnaceService;
-import org.netbeans.api.project.ProjectManager;
-import org.netbeans.api.project.ui.OpenProjects;
-import org.openide.filesystems.FileObject;
-import org.openide.filesystems.FileUtil;
-import org.openide.util.Exceptions;
 import org.openide.util.RequestProcessor;
 import org.openide.util.lookup.ServiceProvider;
 
@@ -43,14 +36,7 @@ public class NbProjectListener implements ProjectListener, ContainerLifecycleLis
 
     @Override
     public void projectCreated(Project project) {
-        File root = (File) project.getRoot().getUnderlyingResourceObject();
-        FileObject dir = FileUtil.toFileObject(root);
-        try {
-            org.netbeans.api.project.Project p = ProjectManager.getDefault().findProject(dir);
-            OpenProjects.getDefault().open(new org.netbeans.api.project.Project[]{p}, true, true);
-        } catch (IOException | IllegalArgumentException ex) {
-            Exceptions.printStackTrace(ex);
-        }
+        ProjectImporter.INSTANCE.addProject(project);
     }
 
     @Override
