@@ -44,4 +44,14 @@ public enum NbUIProvider implements UIProvider {
     public UIDesktop getDesktop() {
         return new NbUIDesktop();
     }
+
+    @Override
+    public String getName() {
+        return "NetBeans";
+    }
+
+    @Override
+    public boolean isEmbedded() {
+        return true;
+    }
 }
