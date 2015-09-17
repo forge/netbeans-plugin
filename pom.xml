@@ -64,7 +64,7 @@
     </modules>
 
     <properties>
-        <forge.version>2.19.1.Final</forge.version>
+        <forge.version>2.19.2.Final</forge.version>
         <furnace.version>2.22.0.Final</furnace.version>
         <angularjs.addon.version>2.1.5.Final</angularjs.addon.version>
         <netbeans.version>RELEASE80</netbeans.version>
