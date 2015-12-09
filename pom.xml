@@ -1,117 +1,117 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.jboss</groupId>
-        <artifactId>jboss-parent</artifactId>
-        <version>19</version>
-    </parent>
-    <groupId>org.jboss.forge.netbeans</groupId>
-    <artifactId>jbossforge-parent</artifactId>
-    <version>1.1.2-SNAPSHOT</version>
-    <packaging>pom</packaging>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <parent>
+      <groupId>org.jboss</groupId>
+      <artifactId>jboss-parent</artifactId>
+      <version>19</version>
+   </parent>
+   <groupId>org.jboss.forge.netbeans</groupId>
+   <artifactId>jbossforge-parent</artifactId>
+   <version>1.1.2-SNAPSHOT</version>
+   <packaging>pom</packaging>
 
-    <name>JBoss Forge Parent Project</name>
-    <description>The fastest way to build applications, share your software, and enjoy doing it. Bundled with Forge ${forge.version}</description>
-    <url>http://forge.jboss.org</url>
+   <name>JBoss Forge Parent Project</name>
+   <description>The fastest way to build applications, share your software, and enjoy doing it. Bundled with Forge ${forge.version}</description>
+   <url>http://forge.jboss.org</url>
    <licenses>
       <license>
          <name>Eclipse Public License version 1.0</name>
          <url>http://www.eclipse.org/legal/epl-v10.html</url>
       </license>
    </licenses>
-    <repositories>
-        <!--
-        Repository hosting NetBeans modules, especially APIs.
-        Versions are based on IDE releases, e.g.: RELEASE691
-        To create your own repository, use: nbm:populate-repository
-        -->
-        <repository>
-            <id>netbeans</id>
-            <name>NetBeans</name>
-            <url>http://bits.netbeans.org/nexus/content/groups/netbeans/</url>
-        </repository>
-    </repositories>
+   
+   <properties>
+      <maven.compiler.target>1.8</maven.compiler.target>
+      <maven.compiler.source>1.8</maven.compiler.source>
+      <forge.version>3.0.0.Alpha3</forge.version>
+      <furnace.version>2.22.9.Final</furnace.version>
+      <angularjs.addon.version>2.1.5.Final</angularjs.addon.version>
+      <netbeans.version>RELEASE80</netbeans.version>
+      <brandingToken>jbossforge</brandingToken>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
+   </properties>
+   
+   <repositories>
+      <!-- Repository hosting NetBeans modules, especially APIs. Versions are based on IDE releases, e.g.: RELEASE691 To 
+         create your own repository, use: nbm:populate-repository -->
+      <repository>
+         <id>netbeans</id>
+         <name>NetBeans</name>
+         <url>http://bits.netbeans.org/nexus/content/groups/netbeans/</url>
+      </repository>
+   </repositories>
 
-    <build>
-        <pluginManagement>
+   <build>
+      <pluginManagement>
+         <plugins>
+            <plugin>
+               <groupId>org.codehaus.mojo</groupId>
+               <artifactId>nbm-maven-plugin</artifactId>
+               <version>3.13</version>
+               <extensions>true</extensions>
+               <configuration>
+                  <brandingToken>${brandingToken}</brandingToken>
+                  <cluster>${brandingToken}</cluster>
+                  <useOSGiDependencies>true</useOSGiDependencies>
+                  <!-- Keystore properties -->
+                  <keystorealias>netbeans-plugin</keystorealias>
+                  <keystoretype>JKS</keystoretype>
+                  <keystore>${keystore.path}</keystore>
+                  <keystorepassword>${keystore.password}</keystorepassword>
+               </configuration>
+            </plugin>
+         </plugins>
+      </pluginManagement>
+   </build>
+
+   <modules>
+      <module>branding</module>
+      <module>application</module>
+      <module>ui</module>
+      <module>runtime</module>
+   </modules>
+
+   <scm>
+      <connection>scm:git:git://github.com/forge/netbeans-plugin.git</connection>
+      <developerConnection>scm:git:git@github.com:forge/netbeans-plugin.git</developerConnection>
+      <url>http://github.com/forge/netbeans-plugin</url>
+      <tag>HEAD</tag>
+   </scm>
+
+   <profiles>
+      <profile>
+         <id>release</id>
+         <build>
             <plugins>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>nbm-maven-plugin</artifactId>
-                    <version>3.13</version>
-                    <extensions>true</extensions>
-                    <configuration>
-                        <brandingToken>${brandingToken}</brandingToken>
-                        <cluster>${brandingToken}</cluster>
-                        <useOSGiDependencies>true</useOSGiDependencies>
-                        <!-- Keystore properties -->
-                        <keystorealias>netbeans-plugin</keystorealias>
-                        <keystoretype>JKS</keystoretype>
-                        <keystore>${keystore.path}</keystore>
-                        <keystorepassword>${keystore.password}</keystorepassword>
-                    </configuration>
-                </plugin>
+               <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-enforcer-plugin</artifactId>
+                  <version>1.4</version>
+                  <executions>
+                     <execution>
+                        <id>enforce-keystore-properties</id>
+                        <goals>
+                           <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                           <rules>
+                              <requireProperty>
+                                 <property>keystore.path</property>
+                              </requireProperty>
+                              <requireProperty>
+                                 <property>keystore.password</property>
+                              </requireProperty>
+                           </rules>
+                           <fail>true</fail>
+                        </configuration>
+                     </execution>
+                  </executions>
+               </plugin>
             </plugins>
-        </pluginManagement>
-    </build>
-    
-    <modules>
-        <module>branding</module>
-        <module>application</module>
-        <module>ui</module>
-        <module>runtime</module>
-    </modules>
-
-    <properties>
-	<maven.compiler.target>1.8</maven.compiler.target>
-	<maven.compiler.source>1.8</maven.compiler.source>
-        <forge.version>3.0.0.Alpha2</forge.version>
-        <furnace.version>2.22.8.Final</furnace.version>
-        <angularjs.addon.version>2.1.5.Final</angularjs.addon.version>
-        <netbeans.version>RELEASE80</netbeans.version>
-        <brandingToken>jbossforge</brandingToken>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
-    </properties>
-    <scm>
-        <connection>scm:git:git://github.com/forge/netbeans-plugin.git</connection>
-        <developerConnection>scm:git:git@github.com:forge/netbeans-plugin.git</developerConnection>
-        <url>http://github.com/forge/netbeans-plugin</url>
-        <tag>HEAD</tag>
-    </scm>
-    
-    <profiles>
-        <profile>
-            <id>release</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-enforcer-plugin</artifactId>
-                        <version>1.4</version>
-                        <executions>
-                            <execution>
-                                <id>enforce-keystore-properties</id>
-                                <goals>
-                                    <goal>enforce</goal>
-                                </goals>
-                                <configuration>
-                                    <rules>
-                                        <requireProperty>
-                                            <property>keystore.path</property>
-                                        </requireProperty>
-                                        <requireProperty>
-                                            <property>keystore.password</property>
-                                        </requireProperty>
-                                    </rules>
-                                    <fail>true</fail>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>                    
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
+         </build>
+      </profile>
+   </profiles>
 </project>
