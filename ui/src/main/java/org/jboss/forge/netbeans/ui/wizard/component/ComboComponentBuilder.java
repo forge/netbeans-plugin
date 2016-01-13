@@ -51,6 +51,8 @@ public class ComboComponentBuilder extends ComponentBuilder<JComboBox> {
         if (value != null) {
             Converter<Object, String> converter = InputComponents.getItemLabelConverter(getConverterFactory(), selectOne);
             combo.setSelectedItem(converter.convert(value));
+        } else {
+            combo.setSelectedIndex(-1);
         }
         combo.addItemListener(new ItemListener() {
             @Override
