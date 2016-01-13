@@ -53,9 +53,7 @@ public abstract class AbstractListButtonComponentBuilder extends ComponentBuilde
         list.setEnabled(input.isEnabled());
         list.setToolTipText(input.getDescription());
         UIInputMany<Object> inputMany = (UIInputMany<Object>) input;
-        for (String value : getValue(inputMany)) {
-            model.addElement(value);
-        }
+        getValue(inputMany).forEach((value) -> model.addElement(value));
         model.addListDataListener(new ListDataListener() {
             @Override
             public void intervalAdded(ListDataEvent e) {
@@ -93,12 +91,12 @@ public abstract class AbstractListButtonComponentBuilder extends ComponentBuilde
             }
         });
         panel.add(new JScrollPane(list), "growx,height :150:300, width 80%");
-        JPanel panelButtons = new JPanel(new GridLayout(2,1));
+        JPanel panelButtons = new JPanel(new GridLayout(2, 1));
         panelButtons.add(addButton);
         panelButtons.add(removeButton);
-        panel.add(panelButtons,"right,width ::20%");
-        container.add(panel,"growx,span 2");
-        
+        panel.add(panelButtons, "right,width ::20%");
+        container.add(panel, "growx,span 2");
+
         return list;
     }
 
@@ -108,7 +106,9 @@ public abstract class AbstractListButtonComponentBuilder extends ComponentBuilde
         Converter<Object, String> converter = getConverterFactory().getConverter(inputMany.getValueType(), String.class);
         List<String> result = new ArrayList<>();
         for (Object obj : inputMany.getValue()) {
-            result.add(converter.convert(obj));
+            if (obj != null) {
+                result.add(converter.convert(obj));
+            }
         }
         return result;
     }

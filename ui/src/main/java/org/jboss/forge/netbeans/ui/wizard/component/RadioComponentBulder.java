@@ -44,8 +44,12 @@ public class RadioComponentBulder extends ComponentBuilder<JPanel> {
         Converter<Object, String> converter = InputComponents
                 .getItemLabelConverter(getConverterFactory(), selectOne);
         final ButtonGroup buttonGroup = new ButtonGroup();
-        String selectedValue = converter.convert(selectOne.getValue());
+        Object value = selectOne.getValue();
+        String selectedValue = (value == null) ? null : converter.convert(value);
         for (Object choice : selectOne.getValueChoices()) {
+            if (choice == null) {
+                continue;
+            }
             final String text = converter.convert(choice);
             boolean selected = text.equals(selectedValue);
             JRadioButton radio = new JRadioButton(text, selected);
@@ -67,7 +71,7 @@ public class RadioComponentBulder extends ComponentBuilder<JPanel> {
 
     @Override
     protected void setEnabled(JPanel component, boolean enabled) {
-        for(Component child : component.getComponents()) {
+        for (Component child : component.getComponents()) {
             child.setEnabled(enabled);
         }
     }

@@ -41,11 +41,13 @@ public class PasswordComponentBuilder extends ComponentBuilder<JPasswordField> {
 
         final ConverterFactory converterFactory = getConverterFactory();
         if (converterFactory != null) {
-            Converter<Object, String> converter = (Converter<Object, String>) converterFactory
-                    .getConverter(input.getValueType(), String.class);
-            String value = converter
-                    .convert(InputComponents.getValueFor(input));
-            txt.setText(value == null ? "" : value);
+            Object value = InputComponents.getValueFor(input);
+            if (value != null) {
+                Converter<Object, String> converter = (Converter<Object, String>) converterFactory
+                        .getConverter(input.getValueType(), String.class);
+                String convertedValue = converter.convert(value);
+                txt.setText(convertedValue == null ? "" : convertedValue);
+            }
         }
 
         txt.getDocument().addDocumentListener(new DocumentListener() {

@@ -34,11 +34,14 @@ public class SpinnerComponentBuilder extends ComponentBuilder<JSpinner> {
     public JSpinner build(Container container, final InputComponent<?, Object> input, final CommandController controller, final ChangeSupport changeSupport) {
         final JSpinner spinner = new JSpinner();
         spinner.setEnabled(input.isEnabled());
-        Converter<Object, Integer> converter = getConverterFactory()
-                .getConverter(input.getValueType(), Integer.class);
-        final Integer selectedValue = converter.convert(input.getValue());
-        if (selectedValue != null) {
-            spinner.setValue(selectedValue);
+        Object value = input.getValue();
+        if (value != null) {
+            Converter<Object, Integer> converter = getConverterFactory()
+                    .getConverter(input.getValueType(), Integer.class);
+            Integer selectedValue = converter.convert(value);
+            if (selectedValue != null) {
+                spinner.setValue(selectedValue);
+            }
         }
         spinner.addChangeListener(new ChangeListener() {
             @Override

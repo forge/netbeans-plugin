@@ -80,7 +80,9 @@ public class CheckboxTableComponentBuilder extends ComponentBuilder<JTable> {
         Converter<Object, String> converter = InputComponents.getItemLabelConverter(getConverterFactory(), selectMany);
         List<String> result = new ArrayList<>();
         for (Object obj : selectMany.getValue()) {
-            result.add(converter.convert(obj));
+            if (obj != null) {
+                result.add(converter.convert(obj));
+            }
         }
         return result;
     }
@@ -89,7 +91,9 @@ public class CheckboxTableComponentBuilder extends ComponentBuilder<JTable> {
         Converter<Object, String> converter = InputComponents.getItemLabelConverter(getConverterFactory(), selectMany);
         List<String> result = new ArrayList<>();
         for (Object obj : selectMany.getValueChoices()) {
-            result.add(converter.convert(obj));
+            if (obj != null) {
+                result.add(converter.convert(obj));
+            }
         }
         return result;
     }

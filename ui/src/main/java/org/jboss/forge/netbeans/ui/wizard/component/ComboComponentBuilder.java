@@ -46,9 +46,12 @@ public class ComboComponentBuilder extends ComponentBuilder<JComboBox> {
         combo.setEnabled(input.isEnabled());
         combo.setToolTipText(input.getDescription());
         final UISelectOne<Object> selectOne = (UISelectOne) input;
-        Converter<Object, String> converter = InputComponents.getItemLabelConverter(getConverterFactory(), selectOne);
         updateComboModel(combo, selectOne);
-        combo.setSelectedItem(converter.convert(selectOne.getValue()));
+        Object value = selectOne.getValue();
+        if (value != null) {
+            Converter<Object, String> converter = InputComponents.getItemLabelConverter(getConverterFactory(), selectOne);
+            combo.setSelectedItem(converter.convert(value));
+        }
         combo.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -94,7 +97,9 @@ public class ComboComponentBuilder extends ComponentBuilder<JComboBox> {
         Converter<Object, String> converter = InputComponents.getItemLabelConverter(getConverterFactory(), selectOne);
         List<String> result = new ArrayList<>();
         for (Object obj : selectOne.getValueChoices()) {
-            result.add(converter.convert(obj));
+            if (obj != null) {
+                result.add(converter.convert(obj));
+            }
         }
         return result.toArray(new String[result.size()]);
     }

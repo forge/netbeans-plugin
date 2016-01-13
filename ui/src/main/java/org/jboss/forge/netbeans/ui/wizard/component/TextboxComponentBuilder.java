@@ -47,11 +47,12 @@ public class TextboxComponentBuilder extends ComponentBuilder<JTextField> {
         setupAutoCompleteFor(controller.getContext(), input, txt);
         final ConverterFactory converterFactory = getConverterFactory();
         if (converterFactory != null) {
-            Converter<Object, String> converter = (Converter<Object, String>) converterFactory
-                    .getConverter(input.getValueType(), String.class);
-            String value = converter
-                    .convert(InputComponents.getValueFor(input));
-            txt.setText(value == null ? "" : value);
+            Object value = InputComponents.getValueFor(input);
+            if (value != null) {
+                Converter<Object, String> converter = (Converter<Object, String>) converterFactory
+                        .getConverter(input.getValueType(), String.class);
+                txt.setText(converter.convert(value));
+            }
         }
 
         txt.getDocument().addDocumentListener(new DocumentListener() {
@@ -101,7 +102,7 @@ public class TextboxComponentBuilder extends ComponentBuilder<JTextField> {
         if (input instanceof HasCompleter) {
             completer = ((HasCompleter) input).getCompleter();
         }
-        
+
         if (completer != null) {
             ForgeAutoCompletionProvider provider = new ForgeAutoCompletionProvider(context, input, completer);
             AutoCompletion autoCompletion = new AutoCompletion(provider);
