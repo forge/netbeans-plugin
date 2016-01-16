@@ -24,7 +24,7 @@
    <properties>
       <maven.compiler.target>1.8</maven.compiler.target>
       <maven.compiler.source>1.8</maven.compiler.source>
-      <forge.version>3.0.0.Beta1</forge.version>
+      <forge.version>3.0.0.Beta2</forge.version>
       <furnace.version>2.22.10.Final</furnace.version>
       <angularjs.addon.version>2.1.5.Final</angularjs.addon.version>
       <netbeans.version>RELEASE80</netbeans.version>
