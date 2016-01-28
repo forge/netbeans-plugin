@@ -91,6 +91,7 @@ Contributors:
                         <publicPackage>org.jboss.forge.furnace.util</publicPackage>
                         <publicPackage>org.jboss.forge.addon.convert</publicPackage>
                         <publicPackage>org.jboss.forge.addon.projects</publicPackage>
+                        <publicPackage>org.jboss.forge.addon.projects.stacks</publicPackage>
                         <publicPackage>org.jboss.forge.addon.projects.facets</publicPackage>
                         <publicPackage>org.jboss.forge.addon.resource</publicPackage>
                         <publicPackage>org.jboss.forge.addon.ui</publicPackage>

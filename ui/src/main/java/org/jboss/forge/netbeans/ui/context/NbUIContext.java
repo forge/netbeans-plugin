@@ -12,6 +12,7 @@ package org.jboss.forge.netbeans.ui.context;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JEditorPane;
 import org.jboss.forge.addon.resource.Resource;
 import org.jboss.forge.addon.resource.ResourceFactory;
 import org.jboss.forge.addon.ui.UIProvider;
@@ -24,6 +25,7 @@ import org.jboss.forge.netbeans.runtime.FurnaceService;
 import org.jboss.forge.netbeans.ui.NbUIProvider;
 import org.jboss.forge.netbeans.ui.listener.ProjectImporterCommandExecutionListener;
 import org.netbeans.spi.project.ui.support.ProjectChooser;
+import org.openide.cookies.EditorCookie;
 import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataObject;
 import org.openide.nodes.Node;
@@ -41,12 +43,10 @@ public class NbUIContext extends AbstractUIContext {
 
     public NbUIContext() {
         List<Resource<?>> resources = getSelectedResources();
-        this.initialSelection = Selections.from(resources);
-        initialize();
-    }
-
-    public NbUIContext(UISelection<Resource<?>> initialSelection) {
-        this.initialSelection = initialSelection;
+        this.initialSelection = Selections.from((resource) -> {
+            JEditorPane editorPane = getEditorPane(resource);
+            return editorPane == null ? null : new NbUIRegion(resource, editorPane);
+        }, resources);
         initialize();
     }
 
@@ -89,6 +89,26 @@ public class NbUIContext extends AbstractUIContext {
                 }
             }
         }
+    }
+
+    private JEditorPane getEditorPane(Resource resource) {
+        Node[] currentNodes = TopComponent.getRegistry().getCurrentNodes();
+        if (currentNodes != null) {
+            for (Node currentNode : currentNodes) {
+                DataObject dataObject = currentNode.getLookup().lookup(DataObject.class);
+                File file = FileUtil.toFile(dataObject.getPrimaryFile());
+                if (file.equals(resource.getUnderlyingResourceObject())) {
+                    EditorCookie cookie = currentNode.getLookup().lookup(EditorCookie.class);
+                    if (cookie != null) {
+                        JEditorPane[] openedPanes = cookie.getOpenedPanes();
+                        if (openedPanes != null) {
+                            return openedPanes[0];
+                        }
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     /**
