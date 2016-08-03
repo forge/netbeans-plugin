@@ -36,15 +36,12 @@ public class NbUIDesktop extends DefaultUIDesktop {
 
     @Override
     public void edit(final File file) throws IOException {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    DataObject.find(FileUtil.toFileObject(file)).
-                            getLookup().lookup(OpenCookie.class).open();
-                } catch (DataObjectNotFoundException ex) {
-                    Exceptions.printStackTrace(ex);
-                }
+        SwingUtilities.invokeLater(() -> {
+            try {
+                DataObject.find(FileUtil.toFileObject(file)).
+                        getLookup().lookup(OpenCookie.class).open();
+            } catch (DataObjectNotFoundException ex) {
+                Exceptions.printStackTrace(ex);
             }
         });
     }
