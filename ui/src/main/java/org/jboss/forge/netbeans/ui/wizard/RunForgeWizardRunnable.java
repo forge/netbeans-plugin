@@ -11,11 +11,15 @@ package org.jboss.forge.netbeans.ui.wizard;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
-import org.jboss.forge.addon.ui.UIDesktop;
+import java.util.Optional;
+import javax.swing.JEditorPane;
+import javax.swing.text.StyledDocument;
 import org.jboss.forge.addon.ui.command.CommandFactory;
 import org.jboss.forge.addon.ui.command.UICommand;
+import org.jboss.forge.addon.ui.context.UIRegion;
 import org.jboss.forge.addon.ui.context.UISelection;
 import org.jboss.forge.addon.ui.controller.CommandController;
 import org.jboss.forge.addon.ui.controller.CommandControllerFactory;
@@ -28,6 +32,10 @@ import org.jboss.forge.netbeans.ui.context.NbUIContext;
 import org.jboss.forge.netbeans.ui.wizard.util.NotificationHelper;
 import org.openide.DialogDisplayer;
 import org.openide.WizardDescriptor;
+import org.openide.cookies.EditorCookie;
+import org.openide.filesystems.FileUtil;
+import org.openide.loaders.DataObject;
+import org.openide.text.NbDocument;
 import org.openide.util.Exceptions;
 
 /**
@@ -105,9 +113,14 @@ public class RunForgeWizardRunnable implements Runnable {
      * @throws IOException
      */
     private void openSelectedFiles(NbUIContext context) throws IOException {
-        UIDesktop desktop = context.getProvider().getDesktop();
         UISelection<Object> selection = context.getSelection();
+        Optional<UIRegion<Object>> region = Optional.empty();
+        boolean first = true;
         for (Object resource : selection) {
+            if (first) {
+                region = selection.getRegion();
+                first = false;
+            }
             try {
                 //Using reflection due to classloader issues
                 Method method = resource.getClass().getMethod(
@@ -116,12 +129,32 @@ public class RunForgeWizardRunnable implements Runnable {
                 if (underlyingResourceObject instanceof File) {
                     File file = (File) underlyingResourceObject;
                     if (file.exists() && !file.isDirectory()) {
-                        desktop.open(file);
+                        DataObject dObj = DataObject.find(FileUtil.toFileObject(file));
+                        EditorCookie editorCookie = dObj.getLookup().lookup(EditorCookie.class);
+                        editorCookie.open();
+                        region.ifPresent(r -> {
+                            JEditorPane[] openedPanes = editorCookie.getOpenedPanes();
+                            if (openedPanes != null) {
+                                StyledDocument doc;
+                                try {
+                                    doc = editorCookie.openDocument();
+                                    int startLineOffset = NbDocument.findLineOffset(doc, r.getStartLine() - 1);
+                                    int endLineOffset = NbDocument.findLineOffset(doc, r.getEndLine() - 1);
+                                    for (JEditorPane editor : openedPanes) {
+                                        int start = startLineOffset + r.getStartPosition();
+                                        int end = endLineOffset + r.getEndPosition();
+                                        editor.select(start, end);
+                                    }
+                                } catch (IOException ex) {
+                                    Exceptions.printStackTrace(ex);
+                                }
+                            }
+                        });
                     }
                 }
             } catch (NoSuchMethodException ex) {
                 // ignore
-            } catch (Exception ex) {
+            } catch (SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | IOException ex) {
                 Exceptions.printStackTrace(ex);
             }
         }
