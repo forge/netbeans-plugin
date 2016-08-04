@@ -10,8 +10,10 @@
 package org.jboss.forge.netbeans.ui.wizard.component;
 
 import java.awt.Container;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
+import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import org.jboss.forge.addon.convert.Converter;
@@ -33,6 +35,11 @@ public class SpinnerComponentBuilder extends ComponentBuilder<JSpinner> {
     @Override
     public JSpinner build(Container container, final InputComponent<?, Object> input, final CommandController controller, final ChangeSupport changeSupport) {
         final JSpinner spinner = new JSpinner();
+        final JComponent editor = spinner.getEditor();
+        if (editor instanceof JSpinner.DefaultEditor) {
+            JSpinner.DefaultEditor spinnerEditor = (JSpinner.DefaultEditor) editor;
+            spinnerEditor.getTextField().setHorizontalAlignment(JTextField.LEFT);
+        }
         spinner.setEnabled(input.isEnabled());
         Object value = input.getValue();
         if (value != null) {
