@@ -13,7 +13,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.Set;
 import org.jboss.forge.addon.convert.ConverterFactory;
 import org.jboss.forge.addon.resource.ResourceFactory;
 import org.jboss.forge.addon.ui.command.CommandFactory;
@@ -100,9 +99,13 @@ public enum FurnaceService {
      * TODO: This method should be moved to another class
      */
     private synchronized void createFurnace(boolean wait) {
-        if (furnace != null)
-            return;
         try {
+            if (furnace != null) {
+                while (wait && !furnace.getStatus().isStarted()) {
+                    Thread.sleep(500);
+                }
+                return;
+            }
             // MODULES-136
             System.setProperty("modules.ignore.jdk.factory", "true");
             String cnb = Modules.getDefault().ownerOf(getClass()).getCodeNameBase();
