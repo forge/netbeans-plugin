@@ -10,6 +10,7 @@
 package org.jboss.forge.netbeans.runtime;
 
 import org.openide.modules.ModuleInstall;
+import org.openide.util.RequestProcessor;
 
 /**
  * Performs the necessary steps to clean up Furnace
@@ -18,6 +19,15 @@ import org.openide.modules.ModuleInstall;
  */
 public class Installer extends ModuleInstall {
 
+    private static final RequestProcessor RP = new RequestProcessor(Installer.class);
+
+    @Override
+    public void restored() {
+        RP.post(() -> {
+            FurnaceService.INSTANCE.start();
+        });
+    }
+
     /**
      * Stops the running Furnace instance
      *
@@ -25,6 +35,7 @@ public class Installer extends ModuleInstall {
      */
     @Override
     public boolean closing() {
+        RP.shutdown();
         FurnaceService.INSTANCE.stop();
         return true;
     }

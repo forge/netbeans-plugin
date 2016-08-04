@@ -10,7 +10,6 @@
 package org.jboss.forge.netbeans.ui.quicksearch;
 
 import java.util.Set;
-import javax.swing.SwingUtilities;
 import org.jboss.forge.addon.ui.command.CommandFactory;
 import org.jboss.forge.netbeans.runtime.FurnaceService;
 import org.jboss.forge.netbeans.ui.context.NbUIContext;
@@ -23,33 +22,28 @@ public class ForgeSearchProvider implements SearchProvider {
 
     @Override
     public void evaluate(final SearchRequest request, final SearchResponse response) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                CommandFactory commandFactory = FurnaceService.INSTANCE.getCommandFactory();
-                if (commandFactory == null) {
-                    // Furnace hasn't been fully initialized yet, try again later
+        CommandFactory commandFactory = FurnaceService.INSTANCE.getCommandFactory();
+        if (commandFactory == null) {
+            // Furnace hasn't been fully initialized yet, try again later
+            return;
+        }
+        try (NbUIContext context = new NbUIContext()) {
+            Set<String> commandNames = commandFactory.getEnabledCommandNames(context);
+            String text = request.getText();
+            if (commandNames.contains(text)) {
+                if (response.addResult(new RunForgeWizardRunnable(text), text)) {
                     return;
                 }
-                try (NbUIContext context = new NbUIContext()) {
-                    Set<String> commandNames = commandFactory.getEnabledCommandNames(context);
-                    String text = request.getText();
-                    if (commandNames.contains(text)) {
-                        if (response.addResult(new RunForgeWizardRunnable(text), text)) {
-                            return;
-                        }
-                    }
-                    String query = text.toLowerCase();
-                    for (final String commandName : commandNames) {
-                        if (commandName.toLowerCase().contains(query)) {
-                            if (!response.addResult(new RunForgeWizardRunnable(commandName), commandName)) {
-                                break;
-                            }
-                        }
+            }
+            String query = text.toLowerCase();
+            for (final String commandName : commandNames) {
+                if (commandName.toLowerCase().contains(query)) {
+                    if (!response.addResult(new RunForgeWizardRunnable(commandName), commandName)) {
+                        break;
                     }
                 }
             }
-        });
+        }
     }
 
 }

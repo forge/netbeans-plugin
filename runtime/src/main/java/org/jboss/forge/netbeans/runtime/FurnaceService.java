@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Set;
 import org.jboss.forge.addon.convert.ConverterFactory;
 import org.jboss.forge.addon.resource.ResourceFactory;
 import org.jboss.forge.addon.ui.command.CommandFactory;
@@ -64,7 +65,7 @@ public enum FurnaceService {
 
     public <S> Imported<S> lookupImported(Class<S> service) {
         if (furnace == null) {
-            createFurnace();
+            createFurnace(true);
         }
         Imported<S> importedService = null;
         if (furnace != null) {
@@ -75,7 +76,7 @@ public enum FurnaceService {
 
     public <S> S lookup(Class<S> service) {
         if (furnace == null) {
-            createFurnace();
+            createFurnace(true);
         }
         Imported<S> importedService = null;
         if (furnace != null) {
@@ -91,10 +92,16 @@ public enum FurnaceService {
         }
     }
 
+    public void start() {
+        createFurnace(false);
+    }
+
     /**
      * TODO: This method should be moved to another class
      */
-    private void createFurnace() {
+    private synchronized void createFurnace(boolean wait) {
+        if (furnace != null)
+            return;
         try {
             // MODULES-136
             System.setProperty("modules.ignore.jdk.factory", "true");
@@ -149,7 +156,7 @@ public enum FurnaceService {
             // Using a lenient addon compatibility strategy
             furnace.setAddonCompatibilityStrategy(AddonCompatibilityStrategies.LENIENT);
             furnace.startAsync();
-            while (!furnace.getStatus().isStarted()) {
+            while (wait && !furnace.getStatus().isStarted()) {
                 Thread.sleep(500);
             }
 
