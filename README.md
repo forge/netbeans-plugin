@@ -1,5 +1,5 @@
-NetBeans UI support for Forge 2
-================================
+NetBeans UI support for JBoss Forge
+===================================
 
 This is the official NetBeans plugin available in http://plugins.netbeans.org/plugin/57296/
 
