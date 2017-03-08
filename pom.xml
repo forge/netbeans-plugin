@@ -8,7 +8,7 @@
    </parent>
    <groupId>org.jboss.forge.netbeans</groupId>
    <artifactId>jbossforge-parent</artifactId>
-   <version>1.1.23-SNAPSHOT</version>
+   <version>1.1.23.Final</version>
    <packaging>pom</packaging>
 
    <name>JBoss Forge Parent Project</name>
@@ -77,7 +77,7 @@
       <connection>scm:git:git://github.com/forge/netbeans-plugin.git</connection>
       <developerConnection>scm:git:git@github.com:forge/netbeans-plugin.git</developerConnection>
       <url>http://github.com/forge/netbeans-plugin</url>
-      <tag>HEAD</tag>
+      <tag>1.1.23.Final</tag>
    </scm>
 
    <profiles>
