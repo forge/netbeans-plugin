@@ -4,7 +4,7 @@
   <parent>
       <groupId>org.jboss.forge.netbeans</groupId>
       <artifactId>jbossforge-parent</artifactId>
-      <version>4-SNAPSHOT</version>
+      <version>4</version>
   </parent>
 
   <artifactId>jbossforge-branding</artifactId>
