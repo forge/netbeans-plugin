@@ -121,6 +121,9 @@ public class NbUIContext extends AbstractUIContext {
         if (currentNodes != null && currentNodes.length > 0) {
             for (Node currentNode : currentNodes) {
                 DataObject dataObject = currentNode.getLookup().lookup(DataObject.class);
+                if (dataObject == null) {
+                    continue;
+                }
                 File file = FileUtil.toFile(dataObject.getPrimaryFile());
                 Resource<File> resource = resourceFactory.create(file);
                 resources.add(resource);
@@ -129,6 +132,11 @@ public class NbUIContext extends AbstractUIContext {
             File file = ProjectChooser.getProjectsFolder();
             Resource<File> resource = resourceFactory.create(file);
             resources.add(resource);
+        }
+        if (resources.isEmpty()) {
+            File file = ProjectChooser.getProjectsFolder();
+            Resource<File> resource = resourceFactory.create(file);
+            resources.add(resource);            
         }
         return resources;
     }
